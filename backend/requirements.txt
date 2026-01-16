@@ -5,9 +5,12 @@ alembic
 python-dotenv
 python-multipart
 pydantic
+pydantic-settings
+pydantic[email]
 sqlmodel
-psycopg-binary
+psycopg2-binary
 passlib
 python-jose
 bcrypt
 cryptography
+email-validator
