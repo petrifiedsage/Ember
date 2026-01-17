@@ -10,6 +10,10 @@ import sys
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+# Import all models so Alembic can detect them for autogenerate
+from app.models.user import User
+from app.models.inbox_connection import InboxConnection
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

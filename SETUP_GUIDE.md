@@ -18,7 +18,7 @@ docker run --name warmup-db \
   -e POSTGRES_USER=admin \
   -e POSTGRES_PASSWORD=admin \
   -e POSTGRES_DB=email_warmup \
-  -p 5432:5432 \
+  -p 5433:5432 \
   -d postgres
 ```
 

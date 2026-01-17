@@ -9,8 +9,10 @@ pydantic-settings
 pydantic[email]
 sqlmodel
 psycopg2-binary
-passlib
-python-jose
-bcrypt
+passlib[bcrypt]
+python-jose[cryptography]
+bcrypt==4.0.1
 cryptography
 email-validator
+requests
+google-auth
