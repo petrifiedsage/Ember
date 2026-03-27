@@ -1,8 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.auth import router as auth_router
+from app.api.router import api_router
 
-app = FastAPI(title="Email Warmup API")
+app = FastAPI(
+    title="Ember — Email Warmup API",
+    version="0.1.0",
+    description="Email warm-up & deliverability optimizer",
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -12,9 +16,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
-app.include_router(auth_router)
+app.include_router(api_router)
+
 
 @app.get("/")
 def root():
-    return {"message": "Email Warmup API running 🚀"}
+    return {"message": "Ember API running 🔥", "docs": "/docs"}
