@@ -221,14 +221,14 @@ OAuth tokens must be stored encrypted at rest.
 
 ### ✅ Sprint 1 — Exit Criteria
 
-- [ ] `GET /api/v1/inboxes` returns the user's connected inboxes
-- [ ] `POST /api/v1/inboxes` creates a new inbox record
-- [ ] `PATCH /api/v1/inboxes/{id}` updates inbox settings
-- [ ] `DELETE /api/v1/inboxes/{id}` removes an inbox
-- [ ] `GET /api/v1/inboxes/oauth/gmail/start` returns a valid Google OAuth URL
-- [ ] `GET /api/v1/inboxes/oauth/callback` successfully exchanges code for tokens and creates an InboxConnection
-- [ ] OAuth tokens are stored **encrypted** in the database (verified by inspecting the DB row)
-- [ ] `POST /api/v1/inboxes/{inbox_id}/test` sends a real test email via Gmail API
+- [x] `GET /api/v1/inboxes` returns the user's connected inboxes
+- [x] `POST /api/v1/inboxes` creates a new inbox record
+- [x] `PATCH /api/v1/inboxes/{id}` updates inbox settings
+- [x] `DELETE /api/v1/inboxes/{id}` removes an inbox
+- [x] `GET /api/v1/inboxes/oauth/gmail/start` returns a valid Google OAuth URL
+- [x] `GET /api/v1/inboxes/oauth/callback` successfully exchanges code for tokens and creates an InboxConnection
+- [x] OAuth tokens are stored **encrypted** in the database (verified by inspecting the DB row)
+- [x] `POST /api/v1/inboxes/{inbox_id}/test` sends a real test email via Gmail API
 - [ ] Frontend: User can click "Connect Gmail", complete OAuth, and see the inbox appear in their list
 - [ ] Frontend: Inboxes page shows all connected inboxes with status
 - [ ] Frontend: App has a proper layout (sidebar + navbar)
