@@ -1,41 +1,38 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import api, { authService } from '../services/api'
+import api from '../services/api'
+import { useAuth } from '../context/AuthContext'
 
 export function DashboardPage() {
-  const [user, setUser] = useState<any>(null)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const userData = localStorage.getItem('user')
-        if (userData) {
-          setUser(JSON.parse(userData))
-        }
-        
-        // Test API connection
+        // Test API connection to root
         const response = await api.get('/')
-        setMessage(response.data.message)
+        setMessage(response.data.message || 'API connected successfully')
       } catch (err) {
-        console.error('Failed to fetch', err)
+        console.error('Failed to fetch from root endpoint', err)
+        setMessage('Failed to reach backend.')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchUser()
+    fetchDashboardData()
   }, [])
 
   const handleLogout = () => {
-    authService.logout()
+    logout()
     navigate('/login')
   }
 
   if (loading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>
+    return <div className="flex items-center justify-center min-h-screen">Loading Dashboard...</div>
   }
 
   return (

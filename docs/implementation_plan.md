@@ -95,15 +95,15 @@ Protected routes need a way to identify the logged-in user.
 
 ### ✅ Sprint 0 — Exit Criteria
 
-- [ ] All API routes are prefixed with `/api/v1/`
-- [ ] `POST /api/v1/auth/login` returns both `access_token` and `refresh_token`
-- [ ] `POST /api/v1/auth/refresh` endpoint works and returns a new access token
-- [ ] `GET /api/v1/users/me` returns the current user when called with a valid Bearer token
-- [ ] Calling any protected endpoint without a token returns `401 Unauthorized`
-- [ ] `inbox_connections` table has `smtp_host`, `imap_host`, `daily_limit`, `is_warmup_enabled` columns
-- [ ] Frontend stores and uses refresh tokens; auto-refreshes on 401
-- [ ] AuthContext provides user state across the app
-- [ ] All existing functionality (register, login, dashboard routing) still works
+- [x] All API routes are prefixed with `/api/v1/`
+- [x] `POST /api/v1/auth/login` returns both `access_token` and `refresh_token`
+- [x] `POST /api/v1/auth/refresh` endpoint works and returns a new access token
+- [x] `GET /api/v1/users/me` returns the current user when called with a valid Bearer token
+- [x] Calling any protected endpoint without a token returns `401 Unauthorized`
+- [x] `inbox_connections` table has `smtp_host`, `imap_host`, `daily_limit`, `is_warmup_enabled` columns
+- [x] Frontend stores and uses refresh tokens; auto-refreshes on 401
+- [x] AuthContext provides user state across the app
+- [x] All existing functionality (register, login, dashboard routing) still works
 
 ---
 ---
