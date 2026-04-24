@@ -1,34 +1,10 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import { LoginPage } from './pages/LoginPage'
-import { RegisterPage } from './pages/RegisterPage'
-import { DashboardPage } from './pages/DashboardPage'
+import { Outlet } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const token = localStorage.getItem('access_token')
-  if (!token) {
-    return <Navigate to="/login" replace />
-  }
-  return <>{children}</>
-}
-
-function App() {
+export default function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      </Routes>
-    </Router>
-  )
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  );
 }
-
-export default App

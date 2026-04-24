@@ -1,116 +1,22 @@
-# Email Warmup Platform 🚀
+# Ember
 
-A comprehensive email warmup automation system designed to help improve email deliverability through intelligent warm-up campaigns.
+Ember is an email deliverability audit & monitoring tool. It gives you full visibility into why your emails land in spam. Connect your sending domain, get an instant health report, run seed tests to check inbox placement, and get alerted the moment your reputation drops.
+
+## Features
+- SPF, DKIM, DMARC, and MX record analysis
+- Real-time blacklist checks
+- Seed inbox testing
+- Daily health score (0–100)
+- Alerts via email
+- JWT authentication
 
 ## Tech Stack
+- Backend: FastAPI, PostgreSQL, Redis, Alembic, dnspython, rq
+- Frontend: React, TypeScript, Tailwind CSS
+- Infra: Docker Compose
 
-- **Backend**: FastAPI, SQLAlchemy, PostgreSQL
-- **Frontend**: React (TypeScript), Vite, Tailwind CSS
-- **Authentication**: JWT with bcrypt
-- **Database**: PostgreSQL with Alembic migrations
-- **Task Queue**: Celery/RQ (upcoming)
-
-## Project Structure
-
-```
-email-warmup/
-├─ backend/          # FastAPI application
-│  ├─ app/
-│  │  ├─ main.py           # FastAPI entrypoint
-│  │  ├─ config.py         # Configuration
-│  │  ├─ db/               # Database setup
-│  │  ├─ models/           # SQLAlchemy models
-│  │  ├─ schemas/          # Pydantic schemas
-│  │  ├─ api/              # API routes
-│  │  └─ core/             # Core utilities (auth, security)
-│  ├─ alembic/       # Database migrations
-│  ├─ tests/         # Backend tests
-│  ├─ requirements.txt
-│  └─ venv/          # Virtual environment
-│
-└─ frontend/         # React application
-   ├─ src/
-   │  ├─ pages/
-   │  ├─ components/
-   │  ├─ services/
-   │  └─ App.tsx
-   ├─ package.json
-   └─ node_modules/
-```
-
-## Local Setup
-
-### Prerequisites
-- Python 3.10+
-- Node.js 16+
-- PostgreSQL 13+
-- Docker (recommended for PostgreSQL)
-
-### Backend Setup
-
+## Quick Start
 ```bash
-cd backend
-
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Create .env file
-cp .env.example .env
-
-# Start PostgreSQL (via Docker)
-docker run --name warmup-db -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=admin -e POSTGRES_DB=email_warmup -p 5432:5432 -d postgres
-
-# Run migrations
-alembic upgrade head
-
-# Start server
-uvicorn app.main:app --reload
+cp backend/.env.example backend/.env
+docker-compose up --build
 ```
-
-API will be available at `http://localhost:8000`
-
-### Frontend Setup
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Create .env file
-cp .env.example .env
-
-# Start dev server
-npm run dev
-```
-
-Frontend will be available at `http://localhost:5173`
-
-## API Endpoints
-
-### Authentication
-- `POST /auth/register` - Register new user
-- `POST /auth/login` - Login user
-
-### Health
-- `GET /` - API status
-
-## Development
-
-### Week 1 Goals
-- ✅ Backend + DB + migrations ready
-- ✅ Frontend project created
-- ✅ Architecture + DB schema finalized
-- ✅ Repo structured nicely
-
-## Contributing
-
-This is a personal project. Please fork and submit PRs for any improvements!
-
-## License
-
-MIT
