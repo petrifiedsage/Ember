@@ -1,75 +1,40 @@
-import re
-
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from app.deps import get_current_user
-from app.db.session import get_db
+from typing import List
+from uuid import UUID
+from app.deps import get_db, get_current_user
+from app.schemas.domain import DomainCreate, DomainResponse
 from app.models.domain import Domain
 from app.models.user import User
-from app.schemas.domain import DomainCreateRequest, DomainResponse
 
 router = APIRouter()
 
-DOMAIN_REGEX = re.compile(r"^(?!-)(?:[A-Za-z0-9-]{1,63}\.)+[A-Za-z]{2,63}$")
+@router.get("", response_model=List[DomainResponse])
+def get_domains(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    domains = db.query(Domain).filter(Domain.user_id == current_user.id).all()
+    return domains
 
-
-@router.get("/domains", response_model=list[DomainResponse])
-def list_domains(
-    db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
-) -> list[DomainResponse]:
-    rows = db.scalars(select(Domain).where(Domain.user_id == current_user.id)).all()
-    return [
-        DomainResponse(
-            id=row.id,
-            domain=row.name,
-            health_score=row.health_score,
-            status=row.status,
-            added_at=row.added_at,
-        )
-        for row in rows
-    ]
-
-
-@router.post("/domains", response_model=DomainResponse, status_code=status.HTTP_201_CREATED)
-def create_domain(
-    payload: DomainCreateRequest,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-) -> DomainResponse:
-    domain_name = payload.domain.strip().lower()
-    if not DOMAIN_REGEX.match(domain_name):
-        raise HTTPException(status_code=400, detail="Invalid domain format")
-
-    existing = db.scalar(
-        select(Domain).where(Domain.user_id == current_user.id, Domain.name == domain_name)
-    )
+@router.post("", response_model=DomainResponse, status_code=status.HTTP_201_CREATED)
+def create_domain(domain_in: DomainCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    existing = db.query(Domain).filter(Domain.domain == domain_in.domain, Domain.user_id == current_user.id).first()
     if existing:
-        raise HTTPException(status_code=400, detail="Domain already tracked")
-
-    record = Domain(user_id=current_user.id, name=domain_name)
-    db.add(record)
-    db.commit()
-    db.refresh(record)
-    return DomainResponse(
-        id=record.id,
-        domain=record.name,
-        health_score=record.health_score,
-        status=record.status,
-        added_at=record.added_at,
+        raise HTTPException(status_code=400, detail="Domain already tracked by this user")
+    
+    new_domain = Domain(
+        user_id=current_user.id,
+        domain=domain_in.domain
     )
+    db.add(new_domain)
+    db.commit()
+    db.refresh(new_domain)
+    return new_domain
 
-
-@router.delete("/domains/{domain_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_domain(
-    domain_id: int,
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
-) -> None:
-    record = db.scalar(select(Domain).where(Domain.id == domain_id, Domain.user_id == current_user.id))
-    if not record:
+@router.delete("/{domain_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_domain(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    domain = db.query(Domain).filter(Domain.id == domain_id, Domain.user_id == current_user.id).first()
+    if not domain:
         raise HTTPException(status_code=404, detail="Domain not found")
-    db.delete(record)
+    
+    db.delete(domain)
     db.commit()
     return None

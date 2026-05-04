@@ -1,74 +1,62 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import select
 from sqlalchemy.orm import Session
-
-from app.core.security import (
-    create_access_token,
-    create_refresh_token,
-    decode_token,
-    get_password_hash,
-    verify_password,
-)
-from app.deps import get_current_user
-from app.db.session import get_db
+from app.deps import get_db, get_current_user
+from app.schemas.auth import UserCreate, UserLogin, Token, RefreshToken, UserResponse
 from app.models.user import User
-from app.schemas.auth import (
-    LoginRequest,
-    RefreshRequest,
-    RegisterRequest,
-    TokenResponse,
-    UserMeResponse,
-)
+from app.core.security import get_password_hash, verify_password, create_access_token, create_refresh_token
+from jose import jwt, JWTError
+from app.config import settings
 
 router = APIRouter()
 
-
-@router.post("/auth/register", response_model=UserMeResponse, status_code=status.HTTP_201_CREATED)
-def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserMeResponse:
-    existing = db.scalar(select(User).where(User.email == payload.email.lower()))
-    if existing:
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+def register(user_in: UserCreate, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == user_in.email).first()
+    if user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    user = User(email=payload.email.lower(), hashed_password=get_password_hash(payload.password))
+    
+    user = User(
+        email=user_in.email,
+        hashed_password=get_password_hash(user_in.password),
+        name=user_in.name
+    )
     db.add(user)
     db.commit()
     db.refresh(user)
-    return UserMeResponse(id=user.id, email=user.email, is_active=user.is_active)
+    return user
 
+@router.post("/login", response_model=Token)
+def login(user_in: UserLogin, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.email == user_in.email).first()
+    if not user or not verify_password(user_in.password, user.hashed_password):
+        raise HTTPException(status_code=400, detail="Incorrect email or password")
+    
+    return {
+        "access_token": create_access_token(user.id),
+        "refresh_token": create_refresh_token(user.id),
+        "token_type": "bearer"
+    }
 
-@router.post("/auth/login", response_model=TokenResponse)
-def login(payload: LoginRequest, db: Session = Depends(get_db)) -> TokenResponse:
-    user = db.scalar(select(User).where(User.email == payload.email.lower()))
-    if not user or not verify_password(payload.password, user.hashed_password):
-        raise HTTPException(status_code=401, detail="Invalid email or password")
-    return TokenResponse(
-        access_token=create_access_token(str(user.id)),
-        refresh_token=create_refresh_token(str(user.id)),
-    )
-
-
-@router.post("/auth/refresh", response_model=TokenResponse)
-def refresh_token(payload: RefreshRequest, db: Session = Depends(get_db)) -> TokenResponse:
+@router.post("/refresh", response_model=Token)
+def refresh(token_in: RefreshToken, db: Session = Depends(get_db)):
+    credentials_exception = HTTPException(status_code=401, detail="Could not validate credentials")
     try:
-        decoded = decode_token(payload.refresh_token)
-    except ValueError as exc:
-        raise HTTPException(status_code=401, detail="Invalid refresh token") from exc
+        payload = jwt.decode(token_in.refresh_token, settings.secret_key, algorithms=[settings.algorithm])
+        user_id: str = payload.get("sub")
+        if user_id is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    
+    user = db.query(User).filter(User.id == user_id).first()
+    if user is None:
+        raise credentials_exception
+        
+    return {
+        "access_token": create_access_token(user.id),
+        "token_type": "bearer"
+    }
 
-    if decoded.get("type") != "refresh":
-        raise HTTPException(status_code=401, detail="Invalid refresh token")
-    user_id = decoded.get("sub")
-    user = db.get(User, int(user_id))
-    if not user:
-        raise HTTPException(status_code=401, detail="Invalid refresh token")
-    return TokenResponse(
-        access_token=create_access_token(str(user.id)),
-        refresh_token=create_refresh_token(str(user.id)),
-    )
-
-
-@router.get("/users/me", response_model=UserMeResponse)
-def users_me(current_user: User = Depends(get_current_user)) -> UserMeResponse:
-    return UserMeResponse(
-        id=current_user.id,
-        email=current_user.email,
-        is_active=current_user.is_active,
-    )
+@router.get("/users/me", response_model=UserResponse)
+def read_users_me(current_user: User = Depends(get_current_user)):
+    return current_user

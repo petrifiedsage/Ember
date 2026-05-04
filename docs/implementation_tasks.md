@@ -59,11 +59,11 @@ This document translates the redesigned plan into sprint-ready execution tasks g
 ### Exit Criteria (Sprint 1)
 
 - [ ] `docker compose up --build` starts API, Postgres, and Redis without runtime import errors
-- [ ] Initial migration applies cleanly on empty DB
-- [ ] Auth flow works end-to-end (register -> login -> access protected endpoint)
+- [x] Initial migration applies cleanly on empty DB
+- [x] Auth flow works end-to-end (register -> login -> access protected endpoint)
 - [ ] User can add/list/delete domains from API and frontend UI
-- [ ] DNS latest endpoint returns structured status payload for tracked domains
-- [ ] Basic test coverage exists for auth, domain CRUD, and DNS parser/check logic
+- [x] DNS latest endpoint returns structured status payload for tracked domains
+- [x] Basic test coverage exists for auth, domain CRUD, and DNS parser/check logic
 
 ---
 

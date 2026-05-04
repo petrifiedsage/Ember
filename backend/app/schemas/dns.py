@@ -1,12 +1,28 @@
-from datetime import datetime
-from typing import Any
-
 from pydantic import BaseModel
+from typing import List, Optional
+from datetime import datetime
+from uuid import UUID
 
+class RecordStatus(BaseModel):
+    status: str # pass, warn, fail
+    record: Optional[str] = None
+    note: Optional[str] = None
 
-class DNSLatestResponse(BaseModel):
+class MxStatus(BaseModel):
+    status: str
+    records: List[str] = []
+
+class DnsCheckResult(BaseModel):
     checked_at: datetime
-    spf: dict[str, Any]
-    dkim: dict[str, Any]
-    dmarc: dict[str, Any]
-    mx: dict[str, Any]
+    spf: RecordStatus
+    dkim: RecordStatus
+    dmarc: RecordStatus
+    mx: MxStatus
+
+class DnsHistoryItem(BaseModel):
+    date: datetime
+    spf_status: str | None
+    dkim_status: str | None
+    dmarc_status: str | None
+
+    model_config = {"from_attributes": True}
