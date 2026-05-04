@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-background text-zinc-100 antialiased selection:bg-ember-500/30;
+  }
+}
+
+/* Glassmorphism utilities */
+.glass {
+  @apply bg-surface/80 backdrop-blur-md border border-white/5;
+}
+
+.glass-panel {
+  @apply bg-surfaceHighlight/50 backdrop-blur-lg border border-white/10;
+}
+
+/* Custom animations */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

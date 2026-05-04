@@ -1,28 +1,18 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000/api/v1";
+import axios from 'axios';
 
-type RequestOptions = {
-  method?: "GET" | "POST" | "DELETE";
-  body?: unknown;
-  token?: string | null;
-};
+const apiClient = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
-export async function apiClient<T>(path: string, options: RequestOptions = {}): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, {
-    method: options.method ?? "GET",
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.token ? { Authorization: `Bearer ${options.token}` } : {})
-    },
-    body: options.body ? JSON.stringify(options.body) : undefined
-  });
-
-  if (!response.ok) {
-    const payload = await response.json().catch(() => ({ detail: "Request failed" }));
-    throw new Error(payload.detail ?? "Request failed");
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('access_token');
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
+  return config;
+});
 
-  if (response.status === 204) {
-    return undefined as T;
-  }
-  return (await response.json()) as T;
-}
+export default apiClient;

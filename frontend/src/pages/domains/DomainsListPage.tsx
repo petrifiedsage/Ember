@@ -1,79 +1,108 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuth";
-import { domainService, type DomainDto } from "../../services/domainService";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { PageContainer } from '../../components/layout/PageContainer';
+import { Card } from '../../components/common/Card';
+import { Button } from '../../components/common/Button';
+import { Plus, Globe, Trash2 } from 'lucide-react';
+import apiClient from '../../services/apiClient';
+import { AddDomainModal } from '../../components/domains/AddDomainModal';
 
-export default function DomainsListPage() {
-  const { token } = useAuth();
-  const [domains, setDomains] = useState<DomainDto[]>([]);
-  const [error, setError] = useState<string | null>(null);
+export const DomainsListPage: React.FC = () => {
+  const [domains, setDomains] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  async function loadDomains() {
-    if (!token) return;
+  const fetchDomains = async () => {
     try {
-      setDomains(await domainService.list(token));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load domains");
+      const { data } = await apiClient.get('/domains');
+      setDomains(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-  }
-
-  async function onDelete(id: number) {
-    if (!token) return;
-    if (!window.confirm("Delete this domain?")) return;
-    await domainService.remove(token, id);
-    await loadDomains();
-  }
+  };
 
   useEffect(() => {
-    void loadDomains();
-  }, [token]);
+    fetchDomains();
+  }, []);
+
+  const deleteDomain = async (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!confirm('Are you sure you want to delete this domain?')) return;
+    try {
+      await apiClient.delete(`/domains/${id}`);
+      fetchDomains();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <section className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Tracked Domains</h2>
-        <Link to="/domains/new" className="rounded bg-slate-900 px-3 py-2 text-white">
+    <PageContainer>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-2xl font-bold">Domains</h1>
+          <p className="text-zinc-400 text-sm mt-1">Manage your tracked sending domains</p>
+        </div>
+        <Button onClick={() => setIsModalOpen(true)}>
+          <Plus className="w-4 h-4 mr-2" />
           Add Domain
-        </Link>
+        </Button>
       </div>
-      {error && <p className="text-sm text-rose-600">{error}</p>}
-      <div className="overflow-hidden rounded border bg-white">
-        <table className="w-full text-left">
-          <thead className="bg-slate-50 text-sm text-slate-600">
-            <tr>
-              <th className="p-3">Domain</th>
-              <th className="p-3">Score</th>
-              <th className="p-3">Status</th>
-              <th className="p-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {domains.map((domain) => (
-              <tr key={domain.id} className="border-t">
-                <td className="p-3">
-                  <Link className="text-blue-600" to={`/domains/${domain.id}`}>
-                    {domain.domain}
-                  </Link>
-                </td>
-                <td className="p-3">{Math.round(domain.health_score)}</td>
-                <td className="p-3">{domain.status}</td>
-                <td className="p-3">
-                  <button className="text-rose-700" onClick={() => void onDelete(domain.id)} type="button">
-                    Delete
+
+      {isLoading ? (
+        <div className="flex justify-center p-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ember-500"></div>
+        </div>
+      ) : domains.length === 0 ? (
+        <div className="text-center py-24 glass-panel rounded-2xl border-dashed">
+          <Globe className="mx-auto h-12 w-12 text-zinc-500" />
+          <h3 className="mt-4 text-sm font-semibold text-white">No domains</h3>
+          <p className="mt-1 text-sm text-zinc-400">Get started by tracking a new domain.</p>
+          <div className="mt-6">
+            <Button onClick={() => setIsModalOpen(true)}>
+              <Plus className="w-4 h-4 mr-2" />
+              Add Domain
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {domains.map((domain) => (
+            <Link key={domain.id} to={`/domains/${domain.id}`} className="block group">
+              <Card className="p-6 transition-all duration-200 hover:border-ember-500/50 hover:shadow-lg hover:shadow-ember-500/10">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="font-medium text-lg truncate pr-4">{domain.domain}</div>
+                  <button 
+                    onClick={(e) => deleteDomain(domain.id, e)}
+                    className="text-zinc-500 hover:text-red-400 transition-colors p-1"
+                  >
+                    <Trash2 className="w-4 h-4" />
                   </button>
-                </td>
-              </tr>
-            ))}
-            {domains.length === 0 && (
-              <tr>
-                <td className="p-4 text-slate-500" colSpan={4}>
-                  No domains tracked yet.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </section>
+                </div>
+                <div className="flex items-end justify-between mt-6">
+                  <div>
+                    <div className="text-sm text-zinc-400 mb-1">Health Score</div>
+                    <div className="text-3xl font-bold text-white">
+                      {domain.health_score !== null ? domain.health_score : '--'}
+                    </div>
+                  </div>
+                  <div className={`px-2.5 py-1 rounded-md text-xs font-medium ${domain.status === 'active' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-zinc-800 text-zinc-400'}`}>
+                    {domain.status}
+                  </div>
+                </div>
+              </Card>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      <AddDomainModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onSuccess={fetchDomains}
+      />
+    </PageContainer>
   );
-}
+};
