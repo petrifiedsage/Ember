@@ -22,7 +22,7 @@ export const DomainDetailPage: React.FC = () => {
       ]);
       const currentDomain = domainRes.data.find((d: any) => d.id === id);
       setDomain(currentDomain);
-      if (dnsRes.data) {
+      if (dnsRes.data && dnsRes.data.spf) {
         setDnsLatest(dnsRes.data);
       }
     } catch (error) {
@@ -39,8 +39,21 @@ export const DomainDetailPage: React.FC = () => {
   const runCheck = async () => {
     setIsChecking(true);
     try {
-      const { data } = await apiClient.post(`/dns/${id}/run`);
-      setDnsLatest(data);
+      await apiClient.post(`/dns/${id}/run`);
+      const oldDate = dnsLatest?.checked_at;
+      
+      for (let i = 0; i < 15; i++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const { data } = await apiClient.get(`/dns/${id}/latest`);
+        if (data && data.spf && data.checked_at !== oldDate) {
+          setDnsLatest(data);
+          // Also refresh domain to get updated score
+          const domainRes = await apiClient.get('/domains');
+          const currentDomain = domainRes.data.find((d: any) => d.id === id);
+          setDomain(currentDomain);
+          break;
+        }
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -98,7 +111,7 @@ export const DomainDetailPage: React.FC = () => {
             </Button>
           </div>
 
-          {dnsLatest ? (
+          {dnsLatest && dnsLatest.spf ? (
             <div className="flex flex-col">
               <DnsCheckRow 
                 title="SPF" 

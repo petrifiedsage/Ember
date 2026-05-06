@@ -1,8 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from app.api.v1.router import api_router
+from app.workers.scheduler import scheduler
 
-app = FastAPI(title="Ember API", version="1.0.0")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    scheduler.start()
+    yield
+    # Shutdown
+    scheduler.shutdown()
+
+app = FastAPI(title="Ember API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

@@ -809,6 +809,7 @@ mailscope-frontend/
 
 #### Sprint 1 Exit Criteria
 
+
 - [ ] `docker compose up` starts all services with no errors
 - [ ] `POST /auth/register` and `POST /auth/login` return valid JWTs
 - [ ] Authenticated user can add a domain and see it listed

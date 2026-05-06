@@ -17,11 +17,14 @@ def register_and_login(client, email: str = "user@example.com", password: str = 
 def test_auth_flow(client):
     headers = register_and_login(client)
 
-    me_response = client.get("/api/v1/users/me", headers=headers)
+    me_response = client.get("/api/v1/auth/users/me", headers=headers)
 
     assert me_response.status_code == 200
     assert me_response.json()["email"] == "user@example.com"
 
+
+from app.schemas.dns import DnsCheckResult, RecordStatus, MxStatus
+from datetime import datetime, timezone
 
 def test_domain_crud_and_dns_latest(client, monkeypatch):
     calls = {"count": 0}
@@ -29,12 +32,13 @@ def test_domain_crud_and_dns_latest(client, monkeypatch):
     def fake_check_domain_dns(domain: str):
         calls["count"] += 1
         assert domain == "gmail.com"
-        return {
-            "spf": {"status": "pass", "record": "v=spf1 include:_spf.google.com ~all", "note": None},
-            "dkim": {"status": "fail", "record": None, "note": "No selector found for default._domainkey"},
-            "dmarc": {"status": "pass", "record": "v=DMARC1; p=reject;", "note": None},
-            "mx": {"status": "pass", "records": ["smtp.google.com"], "note": None},
-        }
+        return DnsCheckResult(
+            checked_at=datetime.now(timezone.utc),
+            spf=RecordStatus(status="pass", record="v=spf1 include:_spf.google.com ~all", note=None),
+            dkim=RecordStatus(status="fail", record=None, note="No selector found for default._domainkey"),
+            dmarc=RecordStatus(status="pass", record="v=DMARC1; p=reject;", note=None),
+            mx=MxStatus(status="pass", records=["smtp.google.com"])
+        )
 
     monkeypatch.setattr("app.api.v1.dns.check_domain_dns", fake_check_domain_dns)
 

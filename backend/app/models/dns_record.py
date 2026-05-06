@@ -1,6 +1,7 @@
 import uuid
 from sqlalchemy import Column, String, Text, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import JSON
 from datetime import datetime, timezone
 from app.db.base import Base
 
@@ -21,4 +22,4 @@ class DnsRecord(Base):
     dmarc_record = Column(Text, nullable=True)
     
     mx_status = Column(String, nullable=True)
-    mx_records = Column(JSONB, nullable=True)
+    mx_records = Column(JSON, nullable=True)

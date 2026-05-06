@@ -35,10 +35,8 @@ def get_latest_dns(domain_id: UUID, db: Session = Depends(get_db), current_user:
         mx=MxStatus(status=record.mx_status or "fail", records=record.mx_records or [])
     )
 
-@router.post("/{domain_id}/run", response_model=DnsCheckResult, status_code=status.HTTP_201_CREATED)
-def run_dns_check(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+def run_dns_check(domain_id: UUID, db: Session, current_user: User) -> DnsCheckResult:
     domain = get_domain_or_404(db, domain_id, current_user)
-    
     result = check_domain_dns(domain.domain)
     
     new_record = DnsRecord(
@@ -57,8 +55,19 @@ def run_dns_check(domain_id: UUID, db: Session = Depends(get_db), current_user: 
     domain.last_checked_at = result.checked_at
     db.commit()
     db.refresh(new_record)
-    
     return result
+
+from app.workers.queue import redis_settings
+from arq import create_pool
+
+@router.post("/{domain_id}/run", status_code=status.HTTP_202_ACCEPTED)
+async def run_dns_check_endpoint(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    domain = get_domain_or_404(db, domain_id, current_user)
+    
+    redis = await create_pool(redis_settings)
+    await redis.enqueue_job("run_dns_check_task", str(domain.id))
+    
+    return {"status": "enqueued"}
 
 @router.get("/{domain_id}/history", response_model=List[DnsHistoryItem])
 def get_dns_history(

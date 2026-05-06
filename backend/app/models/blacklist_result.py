@@ -1,6 +1,7 @@
 import uuid
 from sqlalchemy import Column, Boolean, DateTime, ForeignKey
-from sqlalchemy.dialects.postgresql import UUID, JSONB
+from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy import JSON
 from datetime import datetime, timezone
 from app.db.base import Base
 
@@ -11,5 +12,5 @@ class BlacklistResult(Base):
     domain_id = Column(UUID(as_uuid=True), ForeignKey("domains.id"), nullable=False)
     checked_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     
-    is_clean = Column(Boolean, default=True)
-    hits = Column(JSONB, default=list)
+    is_listed = Column(Boolean, default=False)
+    results = Column(JSON, default=list)
