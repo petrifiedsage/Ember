@@ -7,6 +7,8 @@ import { RegisterPage } from './pages/auth/RegisterPage';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { DomainsListPage } from './pages/domains/DomainsListPage';
 import { DomainDetailPage } from './pages/domains/DomainDetailPage';
+import { SeedTestPage } from './pages/seed-tests/SeedTestPage';
+import { AlertsPage } from './pages/alerts/AlertsPage';
 
 const App: React.FC = () => {
   return (
@@ -20,8 +22,8 @@ const App: React.FC = () => {
             <Route path="/" element={<DashboardPage />} />
             <Route path="/domains" element={<DomainsListPage />} />
             <Route path="/domains/:id" element={<DomainDetailPage />} />
-            {/* Fallback for undeveloped pages */}
-            <Route path="/alerts" element={<div className="p-8 text-center text-zinc-400">Alerts coming soon</div>} />
+            <Route path="/domains/:id/seed-test" element={<SeedTestPage />} />
+            <Route path="/alerts" element={<AlertsPage />} />
             <Route path="/settings" element={<div className="p-8 text-center text-zinc-400">Settings coming soon</div>} />
           </Route>
           

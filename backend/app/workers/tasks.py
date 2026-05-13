@@ -46,7 +46,8 @@ def update_domain_score(db, domain):
     )
     db.add(snapshot)
     
-    evaluate_and_alert(str(domain.id), new_score, old_score)
+    has_blacklist_hit = latest_bl.is_listed if latest_bl else False
+    evaluate_and_alert(str(domain.id), new_score, old_score, has_blacklist_hit)
 
 async def run_dns_check_task(ctx: dict, domain_id: str) -> None:
     db = SessionLocal()

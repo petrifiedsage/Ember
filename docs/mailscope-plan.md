@@ -915,15 +915,17 @@ mailscope-frontend/
 
 #### Sprint 2 Exit Criteria
 
-- [ ] Background worker processes DNS and blacklist checks automatically for all active domains daily
-- [ ] Health score is correctly computed and stored after every check
-- [ ] Blacklist check correctly identifies listed vs clean status
-- [ ] Full seed test flow works: create test → poll → placement results returned
-- [ ] Alert fires via email (testable via Mailpit) when a rule condition is met
-- [ ] Dashboard shows all domains with scores
-- [ ] Seed test UI completes the full flow end-to-end
-- [ ] All new tests pass (`pytest -v`)
-- [ ] Score history chart renders with real data
+- [x] Background worker processes DNS and blacklist checks automatically for all active domains daily
+- [x] Health score is correctly computed and stored after every check
+- [x] Blacklist check correctly identifies listed vs clean status
+- [x] Full seed test flow works: create test → poll → placement results returned
+- [x] Alert fires via email (testable via Mailpit) when a rule condition is met
+- [x] Dashboard shows all domains with scores
+- [x] Seed test UI completes the full flow end-to-end
+- [x] All new tests pass (`pytest -v`) — 4/4 tests passing
+- [x] Score history chart renders with real data
+
+**Status:** ✅ SPRINT 2 COMPLETE (13 May 2026)
 
 ---
 

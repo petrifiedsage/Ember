@@ -32,5 +32,12 @@ services:
       - redis
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
+  mailpit:
+    image: axllent/mailpit
+    container_name: ember_mailpit
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP server
+
 volumes:
   postgres_data:
