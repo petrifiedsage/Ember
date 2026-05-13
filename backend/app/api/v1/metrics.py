@@ -31,9 +31,9 @@ def get_score_history(domain_id: UUID, days: int = 30, db: Session = Depends(get
     cutoff = datetime.now(timezone.utc) - timedelta(days=days)
     snapshots = db.query(MetricSnapshot).filter(
         MetricSnapshot.domain_id == domain.id,
-        MetricSnapshot.captured_at >= cutoff
-    ).order_by(MetricSnapshot.captured_at.asc()).all()
+        MetricSnapshot.date >= cutoff.date()
+    ).order_by(MetricSnapshot.date.asc()).all()
     
     return [
-        {"date": s.captured_at.isoformat(), "score": s.score} for s in snapshots
+        {"date": s.date.isoformat(), "health_score": s.health_score} for s in snapshots
     ]

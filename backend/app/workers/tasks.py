@@ -93,11 +93,13 @@ async def run_seed_poll_task(ctx: dict, test_id: str) -> None:
         if not test or test.status in ["completed", "failed"]: return
             
         placements = check_seed_placement(test.subject_hint, test.created_at)
-        time_elapsed = (datetime.now(timezone.utc).replace(tzinfo=None) - test.created_at).total_seconds()
+        now_utc = datetime.now(timezone.utc)
+        test_created = test.created_at.replace(tzinfo=timezone.utc) if test.created_at.tzinfo is None else test.created_at
+        time_elapsed = (now_utc - test_created).total_seconds()
         
-        db.query(SeedTestResult).filter(SeedTestResult.test_id == test.id).delete()
+        db.query(SeedTestResult).filter(SeedTestResult.seed_test_id == test.id).delete()
         for p in placements:
-            db.add(SeedTestResult(test_id=test.id, provider=p["provider"], email_address=p["email"], placement=p["placement"]))
+            db.add(SeedTestResult(seed_test_id=test.id, provider=p["provider"], placement=p["placement"]))
             
         missing = [p for p in placements if p["placement"] == "missing"]
         if not missing or time_elapsed > 3600:

@@ -29,7 +29,7 @@ async def create_seed_test(domain_id: UUID, db: Session = Depends(get_db), curre
     
     test = SeedTest(
         domain_id=domain.id,
-        status="pending",
+        status="awaiting_email",
         subject_hint=hint,
         created_at=datetime.now(timezone.utc)
     )
@@ -40,7 +40,14 @@ async def create_seed_test(domain_id: UUID, db: Session = Depends(get_db), curre
     redis = await create_pool(redis_settings)
     await redis.enqueue_job("run_seed_poll_task", str(test.id), _defer_by=60)
     
-    return {"test_id": test.id, "subject_hint": hint}
+    # Return seed addresses for frontend to show user
+    seed_addresses = [
+        "mailscope-seed-gmail@gmail.com",
+        "mailscope-seed-outlook@outlook.com", 
+        "mailscope-seed-yahoo@yahoo.com"
+    ]
+    
+    return {"test_id": str(test.id), "subject_hint": hint, "seed_addresses": seed_addresses}
 
 @router.get("/{domain_id}")
 def list_seed_tests(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
@@ -58,7 +65,7 @@ def get_seed_test_result(test_id: UUID, db: Session = Depends(get_db), current_u
     if not domain:
         raise HTTPException(status_code=404, detail="Test not found")
         
-    results = db.query(SeedTestResult).filter(SeedTestResult.test_id == test.id).all()
+    results = db.query(SeedTestResult).filter(SeedTestResult.seed_test_id == test.id).all()
     return {
         "status": test.status,
         "subject_hint": test.subject_hint,

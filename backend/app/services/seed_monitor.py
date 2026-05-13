@@ -29,7 +29,7 @@ def check_seed_placement(subject_hint: str, test_created_at) -> list:
             mail.select("INBOX")
             status, messages = mail.search(None, f'(SUBJECT "{subject_hint}")')
             
-            placement = "missing"
+            placement = "not_found"
             
             if messages[0]:
                 placement = "inbox"
@@ -53,10 +53,7 @@ def check_seed_placement(subject_hint: str, test_created_at) -> list:
             
         except Exception as e:
             print(f"Failed to check IMAP for {email_addr}: {e}")
-            results.append({
-                "provider": provider,
-                "email": email_addr,
-                "placement": "error"
-            })
+            # Don't add error result - skip this provider on failure
+            continue
             
     return results
