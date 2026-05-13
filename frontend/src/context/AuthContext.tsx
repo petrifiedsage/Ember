@@ -1,17 +1,16 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import api, { authService } from '../services/api';
+import apiClient from '../services/apiClient';
 
 interface User {
-  id: number;
+  id: string;
   email: string;
-  name: string;
+  name: string | null;
 }
 
 interface AuthContextType {
   user: User | null;
-  isAuthenticated: boolean;
   isLoading: boolean;
-  login: (access_token: string, refresh_token: string) => Promise<void>;
+  login: (token: string, refreshToken: string) => void;
   logout: () => void;
 }
 
@@ -21,53 +20,42 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Note: we consider them authenticated if we have a token (even before user is fetched)
-  // because the API interceptor will handle invalid tokens by logging them out.
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem('access_token'));
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem('access_token');
-      if (token) {
-        try {
-          const response = await api.get('/users/me');
-          setUser(response.data);
-          setIsAuthenticated(true);
-        } catch (error) {
-          console.error("Failed to fetch user, logging out...", error);
-          authService.logout();
-          setUser(null);
-          setIsAuthenticated(false);
-        }
-      }
-      setIsLoading(false);
-    };
-
-    fetchUser();
-  }, []);
-
-  const login = async (access_token: string, refresh_token: string) => {
-    localStorage.setItem('access_token', access_token);
-    localStorage.setItem('refresh_token', refresh_token);
-    setIsAuthenticated(true);
-    
+  const fetchUser = async () => {
     try {
-      // Hydrate user info immediately
-      const response = await api.get('/users/me');
-      setUser(response.data);
-    } catch (e) {
-      console.error('Failed to hydrate user after login', e);
+      const { data } = await apiClient.get('/auth/users/me');
+      setUser(data);
+    } catch (error) {
+      setUser(null);
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('access_token');
+    if (token) {
+      fetchUser();
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  const login = (token: string, refreshToken: string) => {
+    localStorage.setItem('access_token', token);
+    localStorage.setItem('refresh_token', refreshToken);
+    fetchUser();
+  };
+
   const logout = () => {
-    authService.logout();
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     setUser(null);
-    setIsAuthenticated(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

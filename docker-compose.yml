@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ember_db
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ember}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-emberpassword}
+      POSTGRES_DB: ${POSTGRES_DB:-ember}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: ember_redis
+    ports:
+      - "6379:6379"
+  api:
+    build:
+      context: ./backend
+    container_name: ember_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://${POSTGRES_USER:-ember}:${POSTGRES_PASSWORD:-emberpassword}@db:5432/${POSTGRES_DB:-ember}
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=development_secret_key_change_in_production
+      - RUN_MIGRATIONS_ON_STARTUP=true
+    depends_on:
+      - db
+      - redis
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: ember_mailpit
+    ports:
+      - "8025:8025" # Web UI
+      - "1025:1025" # SMTP server
+
+volumes:
+  postgres_data:

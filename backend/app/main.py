@@ -1,12 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.api.router import api_router
+from contextlib import asynccontextmanager
+from app.api.v1.router import api_router
+from app.workers.scheduler import scheduler
 
-app = FastAPI(
-    title="Ember — Email Warmup API",
-    version="0.1.0",
-    description="Email warm-up & deliverability optimizer",
-)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    scheduler.start()
+    yield
+    # Shutdown
+    scheduler.shutdown()
+
+app = FastAPI(title="Ember API", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,9 +22,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(api_router)
+app.include_router(api_router, prefix="/api/v1")
 
-
-@app.get("/")
-def root():
-    return {"message": "Ember API running 🔥", "docs": "/docs"}
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
