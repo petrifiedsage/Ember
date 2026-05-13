@@ -13,6 +13,13 @@ from app.models import User, Domain, DnsRecord, BlacklistResult, MetricSnapshot,
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.database_url)
 
+# Override sqlalchemy.url with DATABASE_URL from environment / .env
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"))
+db_url = os.getenv("DATABASE_URL")
+if db_url:
+    config.set_main_option("sqlalchemy.url", db_url)
+
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 if config.config_file_name is not None:
