@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from uuid import UUID
 from datetime import datetime, timezone
@@ -9,6 +9,7 @@ from app.models.domain import Domain
 from app.models.dns_record import DnsRecord
 from app.schemas.dns import DnsCheckResult, DnsHistoryItem, RecordStatus, MxStatus
 from app.services.dns_checker import check_domain_dns
+from app.core.rate_limiter import limiter
 
 router = APIRouter()
 
@@ -19,7 +20,8 @@ def get_domain_or_404(db: Session, domain_id: UUID, current_user: User) -> Domai
     return domain
 
 @router.get("/{domain_id}/latest", response_model=DnsCheckResult)
-def get_latest_dns(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def get_latest_dns(request: Request, domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     
     record = db.query(DnsRecord).filter(DnsRecord.domain_id == domain.id).order_by(DnsRecord.checked_at.desc()).first()
@@ -61,7 +63,8 @@ from app.workers.queue import redis_settings
 from arq import create_pool
 
 @router.post("/{domain_id}/run", status_code=status.HTTP_202_ACCEPTED)
-async def run_dns_check_endpoint(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+async def run_dns_check_endpoint(request: Request, domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     
     redis = await create_pool(redis_settings)
@@ -70,7 +73,9 @@ async def run_dns_check_endpoint(domain_id: UUID, db: Session = Depends(get_db),
     return {"status": "enqueued"}
 
 @router.get("/{domain_id}/history", response_model=List[DnsHistoryItem])
+@limiter.limit("60/minute")
 def get_dns_history(
+    request: Request,
     domain_id: UUID, 
     from_date: Optional[datetime] = None, 
     to_date: Optional[datetime] = None, 

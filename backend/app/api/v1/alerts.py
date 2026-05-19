@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from uuid import UUID
@@ -7,6 +7,7 @@ from app.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.domain import Domain
 from app.models.alert_rule import AlertRule
+from app.core.rate_limiter import limiter
 
 router = APIRouter()
 
@@ -23,13 +24,15 @@ def get_domain_or_404(db: Session, domain_id: UUID, current_user: User) -> Domai
     return domain
 
 @router.get("/{domain_id}")
-def list_alerts(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def list_alerts(request: Request, domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     rules = db.query(AlertRule).filter(AlertRule.domain_id == domain.id).all()
     return rules
 
 @router.post("/{domain_id}", status_code=status.HTTP_201_CREATED)
-def create_alert(domain_id: UUID, rule_in: AlertRuleCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def create_alert(request: Request, domain_id: UUID, rule_in: AlertRuleCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     rule = AlertRule(
         domain_id=domain.id,
@@ -44,7 +47,8 @@ def create_alert(domain_id: UUID, rule_in: AlertRuleCreate, db: Session = Depend
     return rule
 
 @router.delete("/{alert_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_alert(alert_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def delete_alert(request: Request, alert_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     rule = db.query(AlertRule).filter(AlertRule.id == alert_id).first()
     if not rule:
         raise HTTPException(status_code=404, detail="Alert rule not found")

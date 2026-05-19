@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query, Request
 from sqlalchemy.orm import Session
 from fastapi.responses import RedirectResponse
 
@@ -12,17 +12,20 @@ from app.services.encryption import encrypt_token, decrypt_token
 from app.services.gmail_oauth import get_google_auth_url, exchange_code_for_tokens, get_user_email, refresh_access_token
 from app.services.email_client import GmailClient
 from app.config import settings
+from app.core.rate_limiter import limiter
 
 router = APIRouter()
 
 @router.get("", response_model=List[InboxConnectionResponse])
-def get_inboxes(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def get_inboxes(request: Request, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """List all inbox connections for the logged-in user"""
     inboxes = db.query(InboxConnection).filter(InboxConnection.user_id == current_user.id).all()
     return inboxes
 
 @router.post("", response_model=InboxConnectionResponse, status_code=status.HTTP_201_CREATED)
-def create_inbox(inbox_data: InboxConnectionCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def create_inbox(request: Request, inbox_data: InboxConnectionCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Create a new manual inbox connection (SMTP/IMAP mostly)"""
     new_inbox = InboxConnection(
         user_id=current_user.id,
@@ -37,7 +40,8 @@ def create_inbox(inbox_data: InboxConnectionCreate, db: Session = Depends(get_db
     return new_inbox
 
 @router.patch("/{inbox_id}", response_model=InboxConnectionResponse)
-def update_inbox(inbox_id: int, inbox_update: InboxConnectionUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def update_inbox(request: Request, inbox_id: int, inbox_update: InboxConnectionUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Update an inbox's settings (warmup status, daily limit)"""
     inbox = db.query(InboxConnection).filter(InboxConnection.id == inbox_id, InboxConnection.user_id == current_user.id).first()
     if not inbox:
@@ -52,7 +56,8 @@ def update_inbox(inbox_id: int, inbox_update: InboxConnectionUpdate, db: Session
     return inbox
 
 @router.delete("/{inbox_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_inbox(inbox_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def delete_inbox(request: Request, inbox_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Remove an inbox connection completely"""
     inbox = db.query(InboxConnection).filter(InboxConnection.id == inbox_id, InboxConnection.user_id == current_user.id).first()
     if not inbox:
@@ -64,14 +69,16 @@ def delete_inbox(inbox_id: int, db: Session = Depends(get_db), current_user: Use
 
 # OAuth flow
 @router.get("/oauth/gmail/start")
-def gmail_oauth_start(current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def gmail_oauth_start(request: Request, current_user: User = Depends(get_current_user)):
     """Starts the Gmail OAuth flow, tying the state query param to the user_id"""
     state_token = encrypt_token(str(current_user.id))
     url = get_google_auth_url(state=state_token)
     return {"url": url}
 
 @router.get("/oauth/callback")
-def gmail_oauth_callback(code: str = Query(...), state: str = Query(...), db: Session = Depends(get_db)):
+@limiter.limit("60/minute")
+def gmail_oauth_callback(request: Request, code: str = Query(...), state: str = Query(...), db: Session = Depends(get_db)):
     """Endpoint that handles the Google callback code, exchanging it for tokens and tying it to the user."""
     # 1. Decode state to verify user
     try:
@@ -131,11 +138,12 @@ def gmail_oauth_callback(code: str = Query(...), state: str = Query(...), db: Se
         db.commit()
 
     # In a full app, we would redirect back to the frontend dashboard instead of returning JSON
-    return RedirectResponse(url="http://localhost:5173/dashboard?oauth=success")
+    return RedirectResponse(url=f"{settings.frontend_url}/dashboard?oauth=success")
 
 
 @router.post("/{inbox_id}/test")
-def test_send_email(inbox_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def test_send_email(request: Request, inbox_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     """Send a test email using the inbox credentials"""
     inbox = db.query(InboxConnection).filter(InboxConnection.id == inbox_id, InboxConnection.user_id == current_user.id).first()
     if not inbox:

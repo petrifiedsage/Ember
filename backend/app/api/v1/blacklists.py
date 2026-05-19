@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from sqlalchemy.orm import Session
 from uuid import UUID
 from app.deps import get_db, get_current_user
@@ -7,6 +7,7 @@ from app.models.domain import Domain
 from app.models.blacklist_result import BlacklistResult
 from app.workers.queue import redis_settings
 from arq import create_pool
+from app.core.rate_limiter import limiter
 
 router = APIRouter()
 
@@ -17,7 +18,8 @@ def get_domain_or_404(db: Session, domain_id: UUID, current_user: User) -> Domai
     return domain
 
 @router.get("/{domain_id}/latest")
-def get_latest_blacklist(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def get_latest_blacklist(request: Request, domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     record = db.query(BlacklistResult).filter(BlacklistResult.domain_id == domain.id).order_by(BlacklistResult.checked_at.desc()).first()
     if not record:
@@ -29,7 +31,8 @@ def get_latest_blacklist(domain_id: UUID, db: Session = Depends(get_db), current
     }
 
 @router.post("/{domain_id}/run", status_code=status.HTTP_202_ACCEPTED)
-async def run_blacklist_check(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+async def run_blacklist_check(request: Request, domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     redis = await create_pool(redis_settings)
     await redis.enqueue_job("run_blacklist_check_task", str(domain.id))

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from uuid import UUID
 from typing import List
@@ -7,6 +7,7 @@ from app.deps import get_db, get_current_user
 from app.models.user import User
 from app.models.domain import Domain
 from app.models.metric_snapshot import MetricSnapshot
+from app.core.rate_limiter import limiter
 
 router = APIRouter()
 
@@ -17,7 +18,8 @@ def get_domain_or_404(db: Session, domain_id: UUID, current_user: User) -> Domai
     return domain
 
 @router.get("/{domain_id}/summary")
-def get_metrics_summary(domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def get_metrics_summary(request: Request, domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     return {
         "domain": domain.domain,
@@ -26,7 +28,8 @@ def get_metrics_summary(domain_id: UUID, db: Session = Depends(get_db), current_
     }
 
 @router.get("/{domain_id}/score-history")
-def get_score_history(domain_id: UUID, days: int = 30, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@limiter.limit("60/minute")
+def get_score_history(request: Request, domain_id: UUID, days: int = 30, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     domain = get_domain_or_404(db, domain_id, current_user)
     cutoff = datetime.now(timezone.utc) - timedelta(days=days)
     snapshots = db.query(MetricSnapshot).filter(
