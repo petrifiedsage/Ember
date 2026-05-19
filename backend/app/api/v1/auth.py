@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 from app.deps import get_db, get_current_user
 from app.schemas.auth import UserCreate, UserLogin, Token, RefreshToken, UserResponse
@@ -6,11 +6,13 @@ from app.models.user import User
 from app.core.security import get_password_hash, verify_password, create_access_token, create_refresh_token
 from jose import jwt, JWTError
 from app.config import settings
+from app.core.rate_limiter import limiter
 
 router = APIRouter()
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
-def register(user_in: UserCreate, db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def register(request: Request, user_in: UserCreate, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == user_in.email).first()
     if user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -26,7 +28,8 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
     return user
 
 @router.post("/login", response_model=Token)
-def login(user_in: UserLogin, db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def login(request: Request, user_in: UserLogin, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == user_in.email).first()
     if not user or not verify_password(user_in.password, user.hashed_password):
         raise HTTPException(status_code=400, detail="Incorrect email or password")
@@ -38,7 +41,8 @@ def login(user_in: UserLogin, db: Session = Depends(get_db)):
     }
 
 @router.post("/refresh", response_model=Token)
-def refresh(token_in: RefreshToken, db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def refresh(request: Request, token_in: RefreshToken, db: Session = Depends(get_db)):
     credentials_exception = HTTPException(status_code=401, detail="Could not validate credentials")
     try:
         payload = jwt.decode(token_in.refresh_token, settings.secret_key, algorithms=[settings.algorithm])
