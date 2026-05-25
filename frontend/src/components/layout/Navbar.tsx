@@ -20,10 +20,8 @@ export const Navbar: React.FC = () => {
       <div className="flex items-center justify-between px-4 sm:px-6 h-16">
         
         {/* Logo */}
-        <div className="flex items-center gap-2 text-ember-500 font-bold text-xl tracking-tight">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-ember-400 to-ember-600 flex items-center justify-center text-white shadow-inner">
-            <Globe className="w-5 h-5" />
-          </div>
+        <div className="flex items-center gap-2 text-white font-bold text-xl tracking-tight">
+          <img src="/ember-logo.svg" alt="Ember Logo" className="w-8 h-8 rounded-lg shadow-inner" />
           <span className="hidden md:inline">Ember</span>
         </div>
         
