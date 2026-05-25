@@ -19,6 +19,13 @@ export const DomainDetailPage: React.FC = () => {
   const [isChecking, setIsChecking] = useState(false);
   const [isCheckingBl, setIsCheckingBl] = useState(false);
 
+  const [smtpHost, setSmtpHost] = useState('');
+  const [smtpPort, setSmtpPort] = useState('');
+  const [smtpUser, setSmtpUser] = useState('');
+  const [smtpPass, setSmtpPass] = useState('');
+  const [isSavingSmtp, setIsSavingSmtp] = useState(false);
+  const [smtpSaved, setSmtpSaved] = useState(false);
+
   const fetchDetails = async () => {
     try {
       const [domainRes, dnsRes, blRes] = await Promise.all([
@@ -28,6 +35,11 @@ export const DomainDetailPage: React.FC = () => {
       ]);
       const currentDomain = domainRes.data.find((d: any) => d.id === id);
       setDomain(currentDomain);
+      if (currentDomain) {
+        setSmtpHost(currentDomain.smtp_host || '');
+        setSmtpPort(currentDomain.smtp_port ? String(currentDomain.smtp_port) : '');
+        setSmtpUser(currentDomain.smtp_username || '');
+      }
       if (dnsRes.data && dnsRes.data.spf) {
         setDnsLatest(dnsRes.data);
       }
@@ -91,6 +103,30 @@ export const DomainDetailPage: React.FC = () => {
       console.error(error);
     } finally {
       setIsCheckingBl(false);
+    }
+  };
+
+  const saveSmtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSavingSmtp(true);
+    try {
+      await apiClient.patch(`/domains/${id}/smtp`, {
+        smtp_host: smtpHost || null,
+        smtp_port: smtpPort ? parseInt(smtpPort) : null,
+        smtp_username: smtpUser || null,
+        smtp_password: smtpPass || null
+      });
+      setSmtpSaved(true);
+      setTimeout(() => setSmtpSaved(false), 3000);
+      setSmtpPass(''); // clear password for security
+      
+      const domainRes = await apiClient.get('/domains');
+      const currentDomain = domainRes.data.find((d: any) => d.id === id);
+      setDomain(currentDomain);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSavingSmtp(false);
     }
   };
 
@@ -215,6 +251,64 @@ export const DomainDetailPage: React.FC = () => {
               No blacklist checks run yet. Click "Run Check" to scan this domain.
             </div>
           )}
+        </Card>
+
+        <Card className="p-6">
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-white">SMTP Integration</h2>
+            <p className="text-zinc-400 text-sm mt-1">Configure your SMTP credentials to enable 1-Click Automated Seed Testing.</p>
+          </div>
+          
+          <form onSubmit={saveSmtp} className="space-y-4 max-w-2xl">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-1">SMTP Host</label>
+                <input
+                  type="text"
+                  value={smtpHost}
+                  onChange={e => setSmtpHost(e.target.value)}
+                  placeholder="smtp.sendgrid.net"
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:border-ember-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-1">Port</label>
+                <input
+                  type="text"
+                  value={smtpPort}
+                  onChange={e => setSmtpPort(e.target.value)}
+                  placeholder="587"
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:border-ember-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-1">Username</label>
+                <input
+                  type="text"
+                  value={smtpUser}
+                  onChange={e => setSmtpUser(e.target.value)}
+                  placeholder="apikey"
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:border-ember-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-zinc-300 mb-1">Password</label>
+                <input
+                  type="password"
+                  value={smtpPass}
+                  onChange={e => setSmtpPass(e.target.value)}
+                  placeholder={domain?.smtp_host ? "(Leave blank to keep existing)" : "••••••••"}
+                  className="w-full bg-zinc-900 border border-zinc-700 text-white rounded-md px-3 py-2 text-sm focus:outline-none focus:border-ember-500"
+                />
+              </div>
+            </div>
+            <div className="flex items-center space-x-4 pt-2">
+              <Button type="submit" isLoading={isSavingSmtp}>
+                Save Settings
+              </Button>
+              {smtpSaved && <span className="text-emerald-500 text-sm font-medium">Settings saved!</span>}
+            </div>
+          </form>
         </Card>
       </div>
     </PageContainer>

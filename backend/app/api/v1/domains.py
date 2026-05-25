@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from uuid import UUID
 from app.deps import get_db, get_current_user
-from app.schemas.domain import DomainCreate, DomainResponse
+from app.schemas.domain import DomainCreate, DomainResponse, DomainSmtpUpdate
 from app.models.domain import Domain
 from app.models.user import User
 from app.core.rate_limiter import limiter
@@ -42,3 +42,22 @@ def delete_domain(request: Request, domain_id: UUID, db: Session = Depends(get_d
     db.delete(domain)
     db.commit()
     return None
+
+@router.patch("/{domain_id}/smtp", response_model=DomainResponse)
+@limiter.limit("60/minute")
+def update_domain_smtp(request: Request, domain_id: UUID, smtp_in: DomainSmtpUpdate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    domain = db.query(Domain).filter(Domain.id == domain_id, Domain.user_id == current_user.id).first()
+    if not domain:
+        raise HTTPException(status_code=404, detail="Domain not found")
+    
+    domain.smtp_host = smtp_in.smtp_host
+    domain.smtp_port = smtp_in.smtp_port
+    domain.smtp_username = smtp_in.smtp_username
+    
+    # Only update password if provided (it might be omitted to keep existing)
+    if smtp_in.smtp_password is not None:
+        domain.smtp_password = smtp_in.smtp_password
+        
+    db.commit()
+    db.refresh(domain)
+    return domain

@@ -24,5 +24,15 @@ class DomainResponse(BaseModel):
     status: str
     added_at: datetime
     last_checked_at: datetime | None = None
+    smtp_host: str | None = None
+    smtp_port: int | None = None
+    smtp_username: str | None = None
+    # Password is intentionally excluded from the response for security
 
     model_config = {"from_attributes": True}
+
+class DomainSmtpUpdate(BaseModel):
+    smtp_host: str | None = Field(None, description="SMTP server hostname (e.g. smtp.sendgrid.net)")
+    smtp_port: int | None = Field(None, description="SMTP server port (e.g. 587 or 465)")
+    smtp_username: str | None = Field(None, description="SMTP username")
+    smtp_password: str | None = Field(None, description="SMTP password")

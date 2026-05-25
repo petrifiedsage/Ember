@@ -6,6 +6,9 @@ export type DomainDto = {
   health_score: number;
   status: string;
   added_at: string;
+  smtp_host?: string;
+  smtp_port?: number;
+  smtp_username?: string;
 };
 
 export type DNSLatestDto = {
@@ -35,5 +38,12 @@ export const domainService = {
   },
   latestDns(token: string, domainId: number) {
     return apiClient<DNSLatestDto>(`/dns/${domainId}/latest`, { token });
+  },
+  updateSmtp(token: string, domainId: string, smtpData: any) {
+    return apiClient<DomainDto>(`/domains/${domainId}/smtp`, {
+      method: "PATCH",
+      token,
+      body: smtpData
+    });
   }
 };

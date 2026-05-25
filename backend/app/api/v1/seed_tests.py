@@ -14,6 +14,7 @@ import json
 import os
 from pathlib import Path
 from app.core.rate_limiter import limiter
+from app.services.smtp_sender import send_seed_test_email
 
 router = APIRouter()
 
@@ -25,6 +26,8 @@ def get_domain_or_404(db: Session, domain_id: UUID, current_user: User) -> Domai
 
 class SeedTestCreate(BaseModel):
     subject_hint: str
+    auto_send: bool = False
+    email_body: str | None = None
 
 @router.post("/{domain_id}/run", status_code=status.HTTP_201_CREATED)
 @limiter.limit("60/minute")
@@ -64,6 +67,24 @@ async def create_seed_test(
     if not seed_addresses:
         # Fallback if file doesn't exist or is empty
         seed_addresses = ["please-configure-seed_accounts.json@example.com"]
+        
+    if payload.auto_send:
+        if not all([domain.smtp_host, domain.smtp_port, domain.smtp_username, domain.smtp_password]):
+            raise HTTPException(status_code=400, detail="Domain SMTP settings are incomplete")
+        try:
+            sender_email = f"deliverability-test@{domain.domain}"
+            send_seed_test_email(
+                smtp_host=domain.smtp_host,
+                smtp_port=domain.smtp_port,
+                smtp_username=domain.smtp_username,
+                smtp_password=domain.smtp_password,
+                sender_email=sender_email,
+                seed_addresses=seed_addresses,
+                subject=payload.subject_hint,
+                body_text=payload.email_body if payload.email_body else None
+            )
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
     
     return {"test_id": str(test.id), "subject_hint": test.subject_hint, "seed_addresses": seed_addresses}
 

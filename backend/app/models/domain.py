@@ -15,5 +15,11 @@ class Domain(Base):
     health_score = Column(Integer, nullable=True)
     added_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     last_checked_at = Column(DateTime(timezone=True), nullable=True)
+    
+    # SMTP Integration for Auto-Send Seed Tests
+    smtp_host = Column(String, nullable=True)
+    smtp_port = Column(Integer, nullable=True)
+    smtp_username = Column(String, nullable=True)
+    smtp_password = Column(String, nullable=True)
 
     user = relationship("User", backref="domains")
