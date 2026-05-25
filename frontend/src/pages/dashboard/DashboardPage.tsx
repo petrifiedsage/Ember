@@ -65,7 +65,7 @@ export const DashboardPage: React.FC = () => {
     <PageContainer>
       <div className="mb-8 flex justify-between items-end">
         <div>
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
           <p className="text-zinc-400 text-sm mt-1">Overview of your email deliverability</p>
         </div>
         <Link 

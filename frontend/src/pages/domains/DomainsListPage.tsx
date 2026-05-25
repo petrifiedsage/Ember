@@ -46,7 +46,7 @@ export const DomainsListPage: React.FC = () => {
     <PageContainer>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold">Domains</h1>
+          <h1 className="text-3xl font-bold text-white">Domains</h1>
           <p className="text-zinc-400 text-sm mt-1">Manage your tracked sending domains</p>
         </div>
         <Button onClick={() => setIsModalOpen(true)}>

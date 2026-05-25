@@ -71,7 +71,7 @@ export const AlertsPage: React.FC = () => {
   return (
     <PageContainer>
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white mb-2">Alert Rules</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">Alert Rules</h1>
         <p className="text-zinc-400">
           Get notified when your domain health changes or hits a blacklist.
         </p>

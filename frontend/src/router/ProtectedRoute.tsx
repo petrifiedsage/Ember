@@ -1,7 +1,6 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Sidebar } from '../components/layout/Sidebar';
 import { Navbar } from '../components/layout/Navbar';
 
 export const ProtectedRoute: React.FC = () => {
@@ -21,14 +20,11 @@ export const ProtectedRoute: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <Navbar />
-        <main className="flex-1 overflow-y-auto">
-          <Outlet />
-        </main>
-      </div>
+    <div className="flex flex-col min-h-screen bg-background relative">
+      <Navbar />
+      <main className="flex-1 overflow-y-auto pt-24 pb-8">
+        <Outlet />
+      </main>
     </div>
   );
 };

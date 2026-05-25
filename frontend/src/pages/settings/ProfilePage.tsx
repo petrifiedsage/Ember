@@ -96,7 +96,7 @@ export const ProfilePage: React.FC = () => {
         <p className="text-zinc-400 mt-2">Manage your account preferences and security</p>
       </div>
 
-      <div className="space-y-6 max-w-2xl">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl">
         <Card className="p-6">
           <h2 className="text-xl font-semibold text-white mb-6">Account Details</h2>
           <div className="flex items-center p-4 bg-zinc-900 rounded-lg border border-zinc-800">
