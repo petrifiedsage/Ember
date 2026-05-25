@@ -105,7 +105,7 @@ async def run_seed_poll_task(ctx: dict, test_id: str) -> None:
         if not missing or time_elapsed > 3600:
             test.status = "completed"
         else:
-            await ctx['redis'].enqueue_job("run_seed_poll_task", test_id, _defer_by=60)
+            await ctx['redis'].enqueue_job("run_seed_poll_task", test_id, _defer_by=15)
         
         db.commit()
     finally:

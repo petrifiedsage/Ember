@@ -39,7 +39,7 @@ export const SeedTestPage: React.FC = () => {
       } catch (err) {
         console.error(err);
       }
-    }, 10000);
+    }, 3000);
 
     return () => clearInterval(poll);
   }, [status, testId]);

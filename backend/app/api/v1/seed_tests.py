@@ -48,7 +48,7 @@ async def create_seed_test(
     db.refresh(test)
     
     redis = await create_pool(redis_settings)
-    await redis.enqueue_job("run_seed_poll_task", str(test.id), _defer_by=60)
+    await redis.enqueue_job("run_seed_poll_task", str(test.id), _defer_by=15)
     
     # Return actual seed addresses from seed_accounts.json
     seed_addresses = []
