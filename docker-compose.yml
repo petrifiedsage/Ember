@@ -39,5 +39,34 @@ services:
       - "8025:8025" # Web UI
       - "1025:1025" # SMTP server
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: ember_frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - api
+
+  worker:
+    build:
+      context: ./backend
+    container_name: ember_worker
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://${POSTGRES_USER:-ember}:${POSTGRES_PASSWORD:-emberpassword}@db:5432/${POSTGRES_DB:-ember}
+      - REDIS_URL=redis://redis:6379/0
+      - SECRET_KEY=development_secret_key_change_in_production
+    depends_on:
+      - db
+      - redis
+    command: arq app.workers.tasks.WorkerSettings
+
 volumes:
   postgres_data:

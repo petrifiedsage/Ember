@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PageContainer } from '../../components/layout/PageContainer';
 import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
@@ -13,6 +13,15 @@ export const DomainsListPage: React.FC = () => {
   const [domains, setDomains] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.openAddModal) {
+      setIsModalOpen(true);
+      // clear the state so it doesn't reopen on refresh
+      window.history.replaceState({}, '', location.pathname);
+    }
+  }, [location]);
 
   const fetchDomains = async () => {
     try {

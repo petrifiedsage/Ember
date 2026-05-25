@@ -3,6 +3,7 @@ import { Navigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import apiClient from '../../services/apiClient';
 import { Button } from '../../components/common/Button';
+import toast from 'react-hot-toast';
 
 export const LoginPage: React.FC = () => {
   const { user, login } = useAuth();
@@ -20,6 +21,15 @@ export const LoginPage: React.FC = () => {
   if (user) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
+
+  React.useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.get('error') === 'oauth_failed') {
+      toast.error('Login unsuccessful');
+      // Clean up the URL
+      window.history.replaceState({}, '', '/login');
+    }
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

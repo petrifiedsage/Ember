@@ -52,7 +52,7 @@ export const DashboardPage: React.FC = () => {
             title="No domains tracked"
             description="You haven't added any domains to Ember yet. Add your first domain to start monitoring its deliverability health."
             actionLabel="Add Domain"
-            onAction={() => navigate('/domains/add')}
+            onAction={() => navigate('/domains', { state: { openAddModal: true } })}
           />
         </Card>
       </PageContainer>

@@ -184,7 +184,8 @@ async def oauth_callback(provider: str, request: Request, db: Session = Depends(
     try:
         token = await client.authorize_access_token(request)
     except Exception as e:
-        raise HTTPException(status_code=400, detail="Could not authorize OAuth")
+        frontend_redirect = "http://localhost:5173/login"
+        return RedirectResponse(f"{frontend_redirect}?error=oauth_failed")
 
     if provider == 'google':
         user_info = token.get('userinfo')

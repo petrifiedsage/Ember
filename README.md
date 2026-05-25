@@ -42,29 +42,34 @@ git clone https://github.com/your-username/ember
 cd ember
 ```
 
-### 2. Backend
+### 2. Configure Environment
 
 ```bash
+# Setup Backend ENV
 cd backend
 cp .env.example .env
-# fill in DB credentials, Redis URL, JWT secret, seed IMAP credentials
+# Fill in your OAuth, SMTP, and DB credentials
+cd ..
+
+# Setup Frontend ENV
+cd frontend
+cp .env.example .env.local
+cd ..
+```
+
+### 3. Run with Docker
+
+The entire stack (Frontend, Backend, Database, Redis, Background Worker, and Mailpit) is containerized and orchestrated via Docker Compose.
+
+```bash
 docker compose up --build
 ```
 
-Runs on `http://localhost:8000`. API docs at `http://localhost:8000/docs`.  
-Mailpit (email catcher) at `http://localhost:8025`.
-
-### 3. Frontend
-
-```bash
-cd frontend
-npm install
-cp .env.example .env.local
-# set VITE_API_URL=http://localhost:8000/api/v1
-npm run dev
-```
-
-Runs on `http://localhost:5173`.
+**Services:**
+- Frontend App: `http://localhost:5173`
+- Backend API: `http://localhost:8000`
+- Swagger API Docs: `http://localhost:8000/docs`
+- Mailpit (SMTP UI): `http://localhost:8025`
 
 ---
 
