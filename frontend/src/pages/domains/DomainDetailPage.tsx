@@ -8,6 +8,7 @@ import apiClient from '../../services/apiClient';
 import { DnsCheckRow } from '../../components/dns/DnsCheckRow';
 import { ScoreRing } from '../../components/common/ScoreRing';
 import { ScoreHistoryChart } from '../../components/charts/ScoreHistoryChart';
+import { PlacementBarChart } from '../../components/charts/PlacementBarChart';
 import { Badge } from '../../components/common/Badge';
 
 export const DomainDetailPage: React.FC = () => {
@@ -177,9 +178,15 @@ export const DomainDetailPage: React.FC = () => {
       </div>
 
       <div className="space-y-6">
-        <Card className="p-6">
-          <ScoreHistoryChart domainId={id as string} />
-        </Card>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card className="p-6">
+            <ScoreHistoryChart domainId={id as string} />
+          </Card>
+          <Card className="p-6">
+            <PlacementBarChart domainId={id as string} />
+          </Card>
+        </div>
+        
         <Card className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-white">DNS Records</h2>

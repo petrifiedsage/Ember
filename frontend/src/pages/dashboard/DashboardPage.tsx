@@ -7,6 +7,7 @@ import { Globe, ArrowRight } from 'lucide-react';
 import apiClient from '../../services/apiClient';
 import { ScoreRing } from '../../components/common/ScoreRing';
 import { Badge } from '../../components/common/Badge';
+import { EmptyState } from '../../components/common/EmptyState';
 import { useNavigate } from 'react-router-dom';
 
 export const DashboardPage: React.FC = () => {
@@ -28,9 +29,37 @@ export const DashboardPage: React.FC = () => {
     fetchDomains();
   }, []);
 
-  const avgScore = domains.length 
-    ? Math.round(domains.reduce((acc, d) => acc + (d.health_score || 0), 0) / domains.length)
-    : '--';
+  if (isLoading) {
+    return (
+      <PageContainer>
+        <div className="flex justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ember-500"></div>
+        </div>
+      </PageContainer>
+    );
+  }
+
+  if (domains.length === 0) {
+    return (
+      <PageContainer>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
+          <p className="text-zinc-400 mt-2">Overview of your sending infrastructure</p>
+        </div>
+        <Card>
+          <EmptyState
+            icon={Globe}
+            title="No domains tracked"
+            description="You haven't added any domains to Ember yet. Add your first domain to start monitoring its deliverability health."
+            actionLabel="Add Domain"
+            onAction={() => navigate('/domains/add')}
+          />
+        </Card>
+      </PageContainer>
+    );
+  }
+
+  const avgScore = Math.round(domains.reduce((acc, d) => acc + (d.health_score || 0), 0) / domains.length) || 0;
 
   return (
     <PageContainer>

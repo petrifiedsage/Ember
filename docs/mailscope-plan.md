@@ -1,4 +1,4 @@
-# Mailscope — Email Deliverability Audit & Monitoring Platform
+# Ember — Email Deliverability Audit & Monitoring Platform
 ### Comprehensive System Design, Architecture & Implementation Plan
 
 ---
@@ -1030,7 +1030,7 @@ mailscope-frontend/
 ## 8. GitHub README Template
 
 ````markdown
-# Mailscope — Email Deliverability Audit & Monitoring
+# Ember — Email Deliverability Audit & Monitoring
 
 Mailscope gives you full visibility into why your emails land in spam.
 Connect your sending domain, get an instant health report, run seed inbox

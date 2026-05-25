@@ -27,7 +27,7 @@ def send_seed_test_email(
     msg["Bcc"] = ", ".join(seed_addresses)
 
     if not body_text and not body_html:
-        body_text = "This is a deliverability test powered by Mailscope. If you are reading this, the test was successful."
+        body_text = "This is a deliverability test powered by Ember. If you are reading this, the test was successful."
 
     if body_text:
         msg.attach(MIMEText(body_text, "plain"))

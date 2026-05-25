@@ -9,10 +9,22 @@ import { DomainsListPage } from './pages/domains/DomainsListPage';
 import { DomainDetailPage } from './pages/domains/DomainDetailPage';
 import { SeedTestPage } from './pages/seed-tests/SeedTestPage';
 import { AlertsPage } from './pages/alerts/AlertsPage';
+import { ProfilePage } from './pages/settings/ProfilePage';
+import { Toaster } from 'react-hot-toast';
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
+      <Toaster 
+        position="top-right" 
+        toastOptions={{
+          style: {
+            background: '#18181b',
+            color: '#fff',
+            border: '1px solid #27272a',
+          }
+        }} 
+      />
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -24,7 +36,7 @@ const App: React.FC = () => {
             <Route path="/domains/:id" element={<DomainDetailPage />} />
             <Route path="/domains/:id/seed-test" element={<SeedTestPage />} />
             <Route path="/alerts" element={<AlertsPage />} />
-            <Route path="/settings" element={<div className="p-8 text-center text-zinc-400">Settings coming soon</div>} />
+            <Route path="/settings" element={<ProfilePage />} />
           </Route>
           
           <Route path="*" element={<Navigate to="/" replace />} />

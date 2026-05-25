@@ -6,6 +6,7 @@ import { Button } from '../../components/common/Button';
 import { Plus, Globe, Trash2 } from 'lucide-react';
 import apiClient from '../../services/apiClient';
 import { AddDomainModal } from '../../components/domains/AddDomainModal';
+import { EmptyState } from '../../components/common/EmptyState';
 
 export const DomainsListPage: React.FC = () => {
   const [domains, setDomains] = useState<any[]>([]);
@@ -56,17 +57,15 @@ export const DomainsListPage: React.FC = () => {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ember-500"></div>
         </div>
       ) : domains.length === 0 ? (
-        <div className="text-center py-24 glass-panel rounded-2xl border-dashed">
-          <Globe className="mx-auto h-12 w-12 text-zinc-500" />
-          <h3 className="mt-4 text-sm font-semibold text-white">No domains</h3>
-          <p className="mt-1 text-sm text-zinc-400">Get started by tracking a new domain.</p>
-          <div className="mt-6">
-            <Button onClick={() => setIsModalOpen(true)}>
-              <Plus className="w-4 h-4 mr-2" />
-              Add Domain
-            </Button>
-          </div>
-        </div>
+        <Card>
+          <EmptyState
+            icon={Globe}
+            title="No domains found"
+            description="Get started by tracking a new domain."
+            actionLabel="Add Domain"
+            onAction={() => setIsModalOpen(true)}
+          />
+        </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {domains.map((domain) => (
