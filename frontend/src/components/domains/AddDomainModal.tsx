@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Button } from '../common/Button';
 import apiClient from '../../services/apiClient';
+import toast from 'react-hot-toast';
 
 interface AddDomainModalProps {
   isOpen: boolean;
@@ -21,11 +22,13 @@ export const AddDomainModal: React.FC<AddDomainModalProps> = ({ isOpen, onClose,
 
     try {
       await apiClient.post('/domains', { domain });
+      toast.success('Domain tracked successfully!');
       setDomain('');
       onSuccess();
       onClose();
     } catch (err: any) {
-      setError(err.response?.data?.detail?.[0]?.msg || err.response?.data?.detail || 'Failed to add domain');
+      const errorMsg = err.response?.data?.detail?.[0]?.msg || err.response?.data?.detail || 'Failed to add domain';
+      toast.error(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -68,11 +71,6 @@ export const AddDomainModal: React.FC<AddDomainModalProps> = ({ isOpen, onClose,
                 </div>
 
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-                  {error && (
-                    <div className="p-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20">
-                      {error}
-                    </div>
-                  )}
                   <div>
                     <input
                       type="text"

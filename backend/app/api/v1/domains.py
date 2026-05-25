@@ -6,7 +6,13 @@ from app.deps import get_db, get_current_user
 from app.schemas.domain import DomainCreate, DomainResponse, DomainSmtpUpdate
 from app.models.domain import Domain
 from app.models.user import User
+from app.models.dns_record import DnsRecord
+from app.models.blacklist_result import BlacklistResult
+from app.models.seed_test import SeedTest
+from app.models.metric_snapshot import MetricSnapshot
+from app.models.alert_rule import AlertRule
 from app.core.rate_limiter import limiter
+import re
 
 router = APIRouter()
 
@@ -19,13 +25,19 @@ def get_domains(request: Request, db: Session = Depends(get_db), current_user: U
 @router.post("", response_model=DomainResponse, status_code=status.HTTP_201_CREATED)
 @limiter.limit("60/minute")
 def create_domain(request: Request, domain_in: DomainCreate, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    existing = db.query(Domain).filter(Domain.domain == domain_in.domain, Domain.user_id == current_user.id).first()
+    # Clean the domain input
+    raw_domain = domain_in.domain.strip()
+    cleaned_domain = re.sub(r"^https?://", "", raw_domain)
+    cleaned_domain = re.sub(r"^www\.", "", cleaned_domain)
+    cleaned_domain = cleaned_domain.split('/')[0].lower()
+
+    existing = db.query(Domain).filter(Domain.domain == cleaned_domain, Domain.user_id == current_user.id).first()
     if existing:
         raise HTTPException(status_code=400, detail="Domain already tracked by this user")
     
     new_domain = Domain(
         user_id=current_user.id,
-        domain=domain_in.domain
+        domain=cleaned_domain
     )
     db.add(new_domain)
     db.commit()
@@ -38,6 +50,13 @@ def delete_domain(request: Request, domain_id: UUID, db: Session = Depends(get_d
     domain = db.query(Domain).filter(Domain.id == domain_id, Domain.user_id == current_user.id).first()
     if not domain:
         raise HTTPException(status_code=404, detail="Domain not found")
+    
+    # Manually delete dependent records to prevent foreign key violations
+    db.query(DnsRecord).filter(DnsRecord.domain_id == domain.id).delete()
+    db.query(BlacklistResult).filter(BlacklistResult.domain_id == domain.id).delete()
+    db.query(SeedTest).filter(SeedTest.domain_id == domain.id).delete()
+    db.query(MetricSnapshot).filter(MetricSnapshot.domain_id == domain.id).delete()
+    db.query(AlertRule).filter(AlertRule.domain_id == domain.id).delete()
     
     db.delete(domain)
     db.commit()

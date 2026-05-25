@@ -7,6 +7,7 @@ import { Plus, Globe, Trash2 } from 'lucide-react';
 import apiClient from '../../services/apiClient';
 import { AddDomainModal } from '../../components/domains/AddDomainModal';
 import { EmptyState } from '../../components/common/EmptyState';
+import toast from 'react-hot-toast';
 
 export const DomainsListPage: React.FC = () => {
   const [domains, setDomains] = useState<any[]>([]);
@@ -33,8 +34,10 @@ export const DomainsListPage: React.FC = () => {
     if (!confirm('Are you sure you want to delete this domain?')) return;
     try {
       await apiClient.delete(`/domains/${id}`);
+      toast.success('Domain deleted successfully');
       fetchDomains();
-    } catch (error) {
+    } catch (error: any) {
+      toast.error(error.response?.data?.detail || 'Failed to delete domain');
       console.error(error);
     }
   };

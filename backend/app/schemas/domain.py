@@ -10,11 +10,18 @@ domain_regex = re.compile(
 class DomainCreate(BaseModel):
     domain: str = Field(..., description="The domain name (e.g., mycompany.com)")
 
-    @field_validator('domain')
+    @field_validator('domain', mode='before')
     @classmethod
-    def validate_domain(cls, v: str) -> str:
+    def clean_and_validate_domain(cls, v: str) -> str:
+        # Clean the input first
+        v = v.strip()
+        v = re.sub(r"^https?://", "", v)
+        v = re.sub(r"^www\.", "", v)
+        v = v.split('/')[0].lower()
+        
+        # Then validate
         if not domain_regex.match(v):
-            raise ValueError("Invalid domain format")
+            raise ValueError(f"Invalid domain format: {v}")
         return v
 
 class DomainResponse(BaseModel):
