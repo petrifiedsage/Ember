@@ -29,7 +29,7 @@ def check_seed_placement(subject_hint: str, test_created_at) -> list:
             mail.select("INBOX")
             status, messages = mail.search(None, f'(SUBJECT "{subject_hint}")')
             
-            placement = "not_found"
+            placement = "missing"
             
             if messages[0]:
                 placement = "inbox"

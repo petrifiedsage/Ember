@@ -10,8 +10,9 @@ from app.models.seed_test import SeedTest
 from app.models.seed_test_result import SeedTestResult
 from app.workers.queue import redis_settings
 from arq import create_pool
-import string
-import random
+import json
+import os
+from pathlib import Path
 from app.core.rate_limiter import limiter
 
 router = APIRouter()
@@ -22,17 +23,24 @@ def get_domain_or_404(db: Session, domain_id: UUID, current_user: User) -> Domai
         raise HTTPException(status_code=404, detail="Domain not found")
     return domain
 
+class SeedTestCreate(BaseModel):
+    subject_hint: str
+
 @router.post("/{domain_id}/run", status_code=status.HTTP_201_CREATED)
 @limiter.limit("60/minute")
-async def create_seed_test(request: Request, domain_id: UUID, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+async def create_seed_test(
+    request: Request, 
+    domain_id: UUID, 
+    payload: SeedTestCreate,
+    db: Session = Depends(get_db), 
+    current_user: User = Depends(get_current_user)
+):
     domain = get_domain_or_404(db, domain_id, current_user)
-    
-    hint = "ember-seed-" + ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
     
     test = SeedTest(
         domain_id=domain.id,
         status="awaiting_email",
-        subject_hint=hint,
+        subject_hint=payload.subject_hint,
         created_at=datetime.now(timezone.utc)
     )
     db.add(test)
@@ -42,14 +50,22 @@ async def create_seed_test(request: Request, domain_id: UUID, db: Session = Depe
     redis = await create_pool(redis_settings)
     await redis.enqueue_job("run_seed_poll_task", str(test.id), _defer_by=60)
     
-    # Return seed addresses for frontend to show user
-    seed_addresses = [
-        "mailscope-seed-gmail@gmail.com",
-        "mailscope-seed-outlook@outlook.com", 
-        "mailscope-seed-yahoo@yahoo.com"
-    ]
+    # Return actual seed addresses from seed_accounts.json
+    seed_addresses = []
+    seed_file = Path("seed_accounts.json")
+    if seed_file.exists():
+        try:
+            with open(seed_file, "r") as f:
+                accounts = json.load(f)
+                seed_addresses = [acc["email"] for acc in accounts if "email" in acc]
+        except Exception:
+            pass
+            
+    if not seed_addresses:
+        # Fallback if file doesn't exist or is empty
+        seed_addresses = ["please-configure-seed_accounts.json@example.com"]
     
-    return {"test_id": str(test.id), "subject_hint": hint, "seed_addresses": seed_addresses}
+    return {"test_id": str(test.id), "subject_hint": test.subject_hint, "seed_addresses": seed_addresses}
 
 @router.get("/{domain_id}")
 @limiter.limit("60/minute")

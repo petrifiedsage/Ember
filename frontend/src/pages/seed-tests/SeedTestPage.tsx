@@ -30,10 +30,10 @@ export const SeedTestPage: React.FC = () => {
 
     const poll = setInterval(async () => {
       try {
-        const { data } = await apiClient.get(`/seed-tests/${testId}/result`);
-        if (data.status === 'complete' || data.status === 'expired') {
+        const { data } = await apiClient.get(`/seed-tests/tests/${testId}/result`);
+        if (data.status === 'completed' || data.status === 'failed') {
           setResults(data.results);
-          setStatus('complete');
+          setStatus('completed');
           clearInterval(poll);
         }
       } catch (err) {
@@ -111,14 +111,16 @@ export const SeedTestPage: React.FC = () => {
           </Card>
         )}
 
-        {(status === 'polling' || status === 'complete') && (
+        {(status === 'polling' || status === 'completed') && (
           <div className="space-y-6">
             <Card className="p-8 border-ember-500/30 border">
               <div className="flex items-start justify-between">
                 <div>
                   <h2 className="text-xl font-semibold text-white mb-2">Step 2: Send your email</h2>
                   <p className="text-zinc-400 text-sm mb-6 max-w-lg">
-                    Copy the email addresses below and add them as BCC recipients to the email you are testing. Send the email with the subject: <span className="font-mono text-ember-400">"{subjectHint}"</span>.
+                    To accurately test <strong>your</strong> email infrastructure's deliverability, you must send this test from your own email client or marketing platform (e.g. Gmail, Mailchimp, SendGrid). 
+                    <br/><br/>
+                    Copy the email addresses below, add them as BCC recipients, and send an email with the exact subject: <span className="font-mono text-ember-400">"{subjectHint}"</span>.
                   </p>
                 </div>
                 {status === 'polling' ? (

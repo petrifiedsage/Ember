@@ -53,6 +53,8 @@ def send_email_alert(to_email: str, domain_name: str, score: int):
     try:
         with smtplib.SMTP(settings.smtp_host, settings.smtp_port) as server:
             logger.info(f"Connected to SMTP server {settings.smtp_host}:{settings.smtp_port}")
+            if settings.smtp_host != "localhost" and settings.smtp_host != "mailpit":
+                server.starttls()
             if settings.smtp_username and settings.smtp_password:
                 server.login(settings.smtp_username, settings.smtp_password)
                 logger.info("Authenticated with SMTP server")
