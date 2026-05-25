@@ -106,6 +106,5 @@ node_modules/
 npm-debug.log
 dist/
 
-# Alembic
-alembic.ini
-alembic/versions/
+# Docs
+docs/
