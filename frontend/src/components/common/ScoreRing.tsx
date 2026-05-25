@@ -43,9 +43,11 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({ score, size = 120, strokeW
   const circumference = radius * 2 * Math.PI;
   const offset = circumference - (animatedScore / 100) * circumference;
 
-  let colorClass = "text-green-500";
-  if (score < 80) colorClass = "text-amber-500";
+  let colorClass = "text-emerald-500";
+  if (score < 80) colorClass = "text-orange-500";
   if (score < 40) colorClass = "text-red-500";
+
+  const textSizeClass = size < 80 ? 'text-2xl' : 'text-4xl';
 
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
@@ -76,7 +78,7 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({ score, size = 120, strokeW
       </svg>
       {/* Score Text */}
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className={`text-4xl font-bold ${colorClass}`}>
+        <span className={`${textSizeClass} font-bold ${colorClass}`}>
           {animatedScore}
         </span>
       </div>

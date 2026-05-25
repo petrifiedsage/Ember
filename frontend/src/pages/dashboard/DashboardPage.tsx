@@ -115,17 +115,17 @@ export const DashboardPage: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {domains.map((domain) => (
-            <Card 
+            <div 
               key={domain.id} 
-              className="p-6 hover:border-zinc-700 cursor-pointer transition-colors group"
+              className="bg-[#18181b] p-6 rounded-2xl border border-zinc-800 hover:border-zinc-700 cursor-pointer transition-colors group flex flex-col justify-between min-h-[160px]"
               onClick={() => navigate(`/domains/${domain.id}`)}
             >
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-1 truncate max-w-[180px]" title={domain.domain}>
+              <div className="flex justify-between items-start">
+                <div className="flex flex-col">
+                  <h3 className="text-xl font-bold text-white mb-2 truncate max-w-[200px]" title={domain.domain}>
                     {domain.domain}
                   </h3>
-                  <span className="text-xs text-zinc-500">
+                  <span className="text-sm text-zinc-500">
                     Last checked: {domain.last_checked_at ? new Date(domain.last_checked_at).toLocaleDateString() : 'Never'}
                   </span>
                 </div>
@@ -133,12 +133,17 @@ export const DashboardPage: React.FC = () => {
                   <ScoreRing score={domain.health_score} size={64} strokeWidth={6} />
                 </div>
               </div>
-              <div className="flex items-center space-x-2 text-xs">
-                <Badge variant={domain.health_score >= 80 ? 'pass' : domain.health_score >= 40 ? 'warn' : 'fail'}>
+              
+              <div className="mt-6 flex items-center">
+                <span className={`px-3 py-1 text-xs font-medium rounded-[10px] border ${
+                  domain.health_score >= 80 ? 'border-emerald-500/50 text-emerald-400 bg-emerald-500/10' : 
+                  domain.health_score >= 40 ? 'border-white text-white' : 
+                  'border-red-500/50 text-red-400 bg-red-500/10'
+                }`}>
                   {domain.health_score >= 80 ? 'HEALTHY' : domain.health_score >= 40 ? 'WARNING' : 'CRITICAL'}
-                </Badge>
+                </span>
               </div>
-            </Card>
+            </div>
           ))}
         </div>
       )}

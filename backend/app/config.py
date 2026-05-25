@@ -16,10 +16,13 @@ class Settings(BaseSettings):
     smtp_port: int
     smtp_username: str = ""
     smtp_password: str = ""
-    smtp_from_email: str
-    encryption_key: str = ""
-    google_client_id: str = ""
-    google_client_secret: str = ""
+    smtp_from_email: str = "alerts@ember.local"
+
+    # OAuth
+    google_client_id: str | None = None
+    google_client_secret: str | None = None
+    github_client_id: str | None = None
+    github_client_secret: str | None = None
     google_redirect_uri: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=False, extra="ignore")

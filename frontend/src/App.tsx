@@ -4,6 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './router/ProtectedRoute';
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
+import { OAuthCallback } from './pages/auth/OAuthCallback';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { DomainsListPage } from './pages/domains/DomainsListPage';
 import { DomainDetailPage } from './pages/domains/DomainDetailPage';
@@ -29,6 +30,7 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/oauth/callback" element={<OAuthCallback />} />
           
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<DashboardPage />} />

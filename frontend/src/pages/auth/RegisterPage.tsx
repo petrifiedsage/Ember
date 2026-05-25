@@ -34,6 +34,10 @@ export const RegisterPage: React.FC = () => {
     }
   };
 
+  const handleOAuth = (provider: 'google' | 'github') => {
+    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1'}/auth/${provider}/login`;
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-background relative overflow-hidden">
       <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-ember-600/20 blur-[120px]" />
@@ -88,6 +92,32 @@ export const RegisterPage: React.FC = () => {
           <Button type="submit" className="w-full" isLoading={isLoading}>
             Sign up
           </Button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-zinc-800" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-[#18181b] px-2 text-zinc-500">Or continue with</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => handleOAuth('google')}
+              className="flex justify-center items-center px-4 py-2 border border-zinc-800 rounded-lg shadow-sm bg-zinc-900/50 hover:bg-zinc-800 transition-colors"
+            >
+              <span className="text-sm font-medium text-white">Google</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleOAuth('github')}
+              className="flex justify-center items-center px-4 py-2 border border-zinc-800 rounded-lg shadow-sm bg-zinc-900/50 hover:bg-zinc-800 transition-colors"
+            >
+              <span className="text-sm font-medium text-white">GitHub</span>
+            </button>
+          </div>
 
           <p className="text-center text-sm text-zinc-400">
             Already have an account?{' '}
