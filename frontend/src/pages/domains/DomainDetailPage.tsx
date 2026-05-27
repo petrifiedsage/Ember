@@ -247,7 +247,7 @@ export const DomainDetailPage: React.FC = () => {
                     <span className="text-white font-medium">{hit.list}</span>
                     {hit.detail && <span className="text-sm text-zinc-500">{hit.detail}</span>}
                   </div>
-                  <Badge variant={hit.listed ? 'fail' : 'pass'}>
+                  <Badge status={hit.listed ? 'fail' : 'pass'}>
                     {hit.listed ? 'LISTED' : 'CLEAN'}
                   </Badge>
                 </div>
