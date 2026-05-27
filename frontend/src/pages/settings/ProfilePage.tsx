@@ -22,6 +22,7 @@ export const ProfilePage: React.FC = () => {
   const [mfaQrUri, setMfaQrUri] = useState('');
   const [mfaCode, setMfaCode] = useState('');
   const [isVerifyingMfa, setIsVerifyingMfa] = useState(false);
+  const [isDisablingMfa, setIsDisablingMfa] = useState(false);
 
   const handleDeleteAccount = async () => {
     if (!confirm('Are you absolutely sure you want to delete your account? This action cannot be undone and all your domains, tests, and alerts will be permanently removed.')) {
@@ -81,6 +82,20 @@ export const ProfilePage: React.FC = () => {
       // toast handled
     } finally {
       setIsVerifyingMfa(false);
+    }
+  };
+
+  const handleDisableMfa = async () => {
+    if (!confirm('Are you sure you want to disable Two-Factor Authentication?')) return;
+    setIsDisablingMfa(true);
+    try {
+      await apiClient.delete('/auth/mfa/disable');
+      toast.success('Two-Factor Authentication disabled');
+      window.location.reload();
+    } catch (error) {
+      // toast handled
+    } finally {
+      setIsDisablingMfa(false);
     }
   };
 
@@ -155,13 +170,26 @@ export const ProfilePage: React.FC = () => {
             Add an extra layer of security to your account by enabling 2FA.
           </p>
           
-          {user?.mfa_enabled ? (
-            <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-start">
-              <ShieldCheck className="w-5 h-5 text-emerald-400 mr-3 mt-0.5" />
+          {user?.is_oauth ? (
+            <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-lg flex items-start opacity-70">
+              <ShieldCheck className="w-5 h-5 text-zinc-500 mr-3 mt-0.5" />
               <div>
-                <h4 className="text-emerald-400 font-medium">2FA is enabled</h4>
-                <p className="text-sm text-zinc-400 mt-1">Your account is secured with multi-factor authentication.</p>
+                <h4 className="text-zinc-300 font-medium">OAuth Login Active</h4>
+                <p className="text-sm text-zinc-500 mt-1">2FA is not required or available when logging in via an OAuth provider like Google or GitHub.</p>
               </div>
+            </div>
+          ) : user?.mfa_enabled ? (
+            <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-start justify-between">
+              <div className="flex items-start">
+                <ShieldCheck className="w-5 h-5 text-emerald-400 mr-3 mt-0.5" />
+                <div>
+                  <h4 className="text-emerald-400 font-medium">2FA is enabled</h4>
+                  <p className="text-sm text-zinc-400 mt-1">Your account is secured with multi-factor authentication.</p>
+                </div>
+              </div>
+              <Button variant="secondary" onClick={handleDisableMfa} isLoading={isDisablingMfa}>
+                Disable 2FA
+              </Button>
             </div>
           ) : isSettingUpMfa ? (
             <div className="p-6 bg-zinc-900 rounded-lg border border-zinc-800">

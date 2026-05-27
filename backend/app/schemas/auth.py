@@ -25,6 +25,7 @@ class UserResponse(BaseModel):
     email: EmailStr
     name: str | None = None
     mfa_enabled: bool = False
+    is_oauth: bool = False
 
     model_config = {"from_attributes": True}
 

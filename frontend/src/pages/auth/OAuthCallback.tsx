@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { PageContainer } from '../../components/layout/PageContainer';
 import { Button } from '../../components/common/Button';
@@ -8,7 +8,7 @@ import apiClient from '../../services/apiClient';
 export const OAuthCallback: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { user, login } = useAuth();
   
   const [mfaRequired, setMfaRequired] = useState(false);
   const [tempToken, setTempToken] = useState('');
@@ -23,8 +23,7 @@ export const OAuthCallback: React.FC = () => {
 
     if (accessToken) {
       // Normal OAuth login successful
-      login(accessToken, refreshToken || undefined);
-      navigate('/');
+      login(accessToken, refreshToken || "");
     } else if (tToken) {
       // MFA required
       setTempToken(tToken);
@@ -42,13 +41,16 @@ export const OAuthCallback: React.FC = () => {
     try {
       const { data } = await apiClient.post('/auth/login/mfa', { temp_token: tempToken, code: mfaCode });
       login(data.access_token, data.refresh_token);
-      navigate('/');
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Invalid MFA code');
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
 
   if (mfaRequired) {
     return (

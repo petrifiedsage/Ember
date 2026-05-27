@@ -166,6 +166,13 @@ def verify_mfa(payload: MfaVerifyRequest, current_user: User = Depends(get_curre
     db.commit()
     return {"detail": "MFA enabled successfully"}
 
+@router.delete("/mfa/disable", status_code=status.HTTP_200_OK)
+def disable_mfa(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    current_user.mfa_enabled = False
+    current_user.mfa_secret = None
+    db.commit()
+    return {"detail": "MFA disabled successfully"}
+
 @router.get("/{provider}/login")
 async def oauth_login(provider: str, request: Request):
     if provider not in ["google", "github"]:
@@ -231,10 +238,6 @@ async def oauth_callback(provider: str, request: Request, db: Session = Depends(
     db.refresh(user)
 
     frontend_redirect = "http://localhost:5173/oauth/callback"
-    
-    if user.mfa_enabled:
-        temp_token = jwt.encode({"sub": str(user.id), "type": "mfa_temp"}, settings.secret_key, algorithm=settings.algorithm)
-        return RedirectResponse(f"{frontend_redirect}?temp_token={temp_token}")
     
     access_token = create_access_token(user.id)
     refresh_token = create_refresh_token(user.id)

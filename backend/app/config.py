@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     smtp_username: str = ""
     smtp_password: str = ""
     smtp_from_email: str = "alerts@ember.local"
+    encryption_key: str = ""
 
     # OAuth
     google_client_id: str | None = None

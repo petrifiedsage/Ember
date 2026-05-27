@@ -21,3 +21,7 @@ class User(Base):
     # OAuth
     google_id = Column(String, nullable=True, unique=True, index=True)
     github_id = Column(String, nullable=True, unique=True, index=True)
+
+    @property
+    def is_oauth(self) -> bool:
+        return self.google_id is not None or self.github_id is not None
