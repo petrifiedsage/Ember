@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     database_url: str
     redis_url: str
     secret_key: str
-    run_migrations_on_startup: bool = False
+    run_migrations_on_startup: bool = True
     environment: str = "development"
     frontend_url: str
     cors_origins: str

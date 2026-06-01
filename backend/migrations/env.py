@@ -12,14 +12,23 @@ from app.models import User, Domain, DnsRecord, BlacklistResult, MetricSnapshot,
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-config.set_main_option("sqlalchemy.url", settings.database_url)
+db_url = settings.database_url
+if db_url.startswith("postgresql+asyncpg://"):
+    db_url = db_url.replace("postgresql+asyncpg://", "postgresql://", 1)
+elif db_url.startswith("postgres://"):
+    db_url = db_url.replace("postgres://", "postgresql://", 1)
+config.set_main_option("sqlalchemy.url", db_url)
 
 # Override sqlalchemy.url with DATABASE_URL from environment / .env
 from dotenv import load_dotenv
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".env"))
-db_url = os.getenv("DATABASE_URL")
-if db_url:
-    config.set_main_option("sqlalchemy.url", db_url)
+env_db_url = os.getenv("DATABASE_URL")
+if env_db_url:
+    if env_db_url.startswith("postgresql+asyncpg://"):
+        env_db_url = env_db_url.replace("postgresql+asyncpg://", "postgresql://", 1)
+    elif env_db_url.startswith("postgres://"):
+        env_db_url = env_db_url.replace("postgres://", "postgresql://", 1)
+    config.set_main_option("sqlalchemy.url", env_db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
