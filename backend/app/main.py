@@ -56,7 +56,13 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
+is_prod = settings.environment.lower() == "production"
+app.add_middleware(
+    SessionMiddleware,
+    secret_key=settings.secret_key,
+    same_site="none" if is_prod else "lax",
+    https_only=is_prod
+)
 
 @app.middleware("http")
 async def add_request_id(request: Request, call_next):

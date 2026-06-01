@@ -179,6 +179,10 @@ async def oauth_login(provider: str, request: Request):
         raise HTTPException(status_code=400, detail="Invalid provider")
     
     redirect_uri = f"{request.base_url}api/v1/auth/{provider}/callback"
+    # Force HTTPS redirect URI behind reverse proxies (like Railway)
+    if "localhost" not in redirect_uri and redirect_uri.startswith("http://"):
+        redirect_uri = redirect_uri.replace("http://", "https://", 1)
+        
     client = oauth.create_client(provider)
     return await client.authorize_redirect(request, redirect_uri)
 
@@ -189,9 +193,13 @@ async def oauth_callback(provider: str, request: Request, db: Session = Depends(
 
     client = oauth.create_client(provider)
     try:
-        token = await client.authorize_access_token(request)
+        # Force HTTPS redirect URI for token authorization behind proxy
+        redirect_uri = f"{request.base_url}api/v1/auth/{provider}/callback"
+        if "localhost" not in redirect_uri and redirect_uri.startswith("http://"):
+            redirect_uri = redirect_uri.replace("http://", "https://", 1)
+        token = await client.authorize_access_token(request, redirect_uri=redirect_uri)
     except Exception as e:
-        frontend_redirect = "http://localhost:5173/login"
+        frontend_redirect = f"{settings.frontend_url.rstrip('/')}/login"
         return RedirectResponse(f"{frontend_redirect}?error=oauth_failed")
 
     if provider == 'google':
@@ -237,7 +245,7 @@ async def oauth_callback(provider: str, request: Request, db: Session = Depends(
     db.commit()
     db.refresh(user)
 
-    frontend_redirect = "http://localhost:5173/oauth/callback"
+    frontend_redirect = f"{settings.frontend_url.rstrip('/')}/oauth/callback"
     
     access_token = create_access_token(user.id)
     refresh_token = create_refresh_token(user.id)

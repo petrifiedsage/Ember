@@ -1,0 +1,527 @@
+{
+  "D:\\CODE\\Ember\\backend\\alembic\\versions\\36ba9f7b3384_sprint0_add_smtp_imap_warmup_to_inbox_.py": {
+    "mtime": 1779903602.2692637,
+    "ast_hash": "3540c191b08094e2d27e4dd34e97b04d",
+    "semantic_hash": "3540c191b08094e2d27e4dd34e97b04d"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\__init__.py": {
+    "mtime": 1779903602.2704785,
+    "ast_hash": "81051bcc2cf1bedf378224b0a93e2877",
+    "semantic_hash": "81051bcc2cf1bedf378224b0a93e2877"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\inboxes.py": {
+    "mtime": 1779903602.2704785,
+    "ast_hash": "eb73ebd089f81b3a2e9f273ae51a6809",
+    "semantic_hash": "eb73ebd089f81b3a2e9f273ae51a6809"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\router.py": {
+    "mtime": 1779903602.2704785,
+    "ast_hash": "e3ecd3b731a7defdd7f28bfc3f6475ae",
+    "semantic_hash": "e3ecd3b731a7defdd7f28bfc3f6475ae"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\users.py": {
+    "mtime": 1779903602.271565,
+    "ast_hash": "7c3931d0ccb3362a8c1f4e7f92277360",
+    "semantic_hash": "7c3931d0ccb3362a8c1f4e7f92277360"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\__init__.py": {
+    "mtime": 1779903602.271565,
+    "ast_hash": "81051bcc2cf1bedf378224b0a93e2877",
+    "semantic_hash": "81051bcc2cf1bedf378224b0a93e2877"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\alerts.py": {
+    "mtime": 1779903602.2720697,
+    "ast_hash": "ed4db53524875f09ee51a002b7e12fee",
+    "semantic_hash": "ed4db53524875f09ee51a002b7e12fee"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\auth.py": {
+    "mtime": 1780326692.2189426,
+    "ast_hash": "334bf99936308b11368f8a04930e8a24",
+    "semantic_hash": ""
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\blacklists.py": {
+    "mtime": 1779903602.2720697,
+    "ast_hash": "1f7d18e414bbe3bb0957b565c7eace8a",
+    "semantic_hash": "1f7d18e414bbe3bb0957b565c7eace8a"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\dns.py": {
+    "mtime": 1779903602.2720697,
+    "ast_hash": "88765e3bdfa8205b8abfc9a5f05077e0",
+    "semantic_hash": "88765e3bdfa8205b8abfc9a5f05077e0"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\domains.py": {
+    "mtime": 1779903602.27327,
+    "ast_hash": "f528d377433c6af6ba4980ed866066db",
+    "semantic_hash": "f528d377433c6af6ba4980ed866066db"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\metrics.py": {
+    "mtime": 1779903602.27327,
+    "ast_hash": "547c6c9bfaf914cefb24eb531ed5875c",
+    "semantic_hash": "547c6c9bfaf914cefb24eb531ed5875c"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\router.py": {
+    "mtime": 1779903602.27327,
+    "ast_hash": "3b1b59f05a19200c43a003bf7238bd93",
+    "semantic_hash": "3b1b59f05a19200c43a003bf7238bd93"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\api\\v1\\seed_tests.py": {
+    "mtime": 1779903602.27327,
+    "ast_hash": "281c2c800862acfcc47bec5f9f3d628b",
+    "semantic_hash": "281c2c800862acfcc47bec5f9f3d628b"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\config.py": {
+    "mtime": 1779903602.27327,
+    "ast_hash": "505f799a80cb3576680bfc9f7296bdb6",
+    "semantic_hash": "505f799a80cb3576680bfc9f7296bdb6"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\core\\__init__.py": {
+    "mtime": 1779903602.274741,
+    "ast_hash": "81051bcc2cf1bedf378224b0a93e2877",
+    "semantic_hash": "81051bcc2cf1bedf378224b0a93e2877"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\core\\rate_limiter.py": {
+    "mtime": 1779903602.274741,
+    "ast_hash": "49e84716c23948bed3ce21a5c3947edf",
+    "semantic_hash": "49e84716c23948bed3ce21a5c3947edf"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\core\\scoring.py": {
+    "mtime": 1779903602.274741,
+    "ast_hash": "5a31a2c10d227d6c0e7968c3a36b3713",
+    "semantic_hash": "5a31a2c10d227d6c0e7968c3a36b3713"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\core\\security.py": {
+    "mtime": 1779903602.274741,
+    "ast_hash": "92243d54db5f511e11910b3ef9d920f1",
+    "semantic_hash": "92243d54db5f511e11910b3ef9d920f1"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\db\\base.py": {
+    "mtime": 1779903602.2757764,
+    "ast_hash": "170df9e717835b6065fbd241b42de018",
+    "semantic_hash": "170df9e717835b6065fbd241b42de018"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\db\\session.py": {
+    "mtime": 1779903602.2757764,
+    "ast_hash": "0edbd4228746f2d8428d21724bdd089f",
+    "semantic_hash": "0edbd4228746f2d8428d21724bdd089f"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\deps.py": {
+    "mtime": 1779903602.2757764,
+    "ast_hash": "61e0d8a437dc43dd31b1c58e3f3c4574",
+    "semantic_hash": "61e0d8a437dc43dd31b1c58e3f3c4574"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\main.py": {
+    "mtime": 1780326696.090979,
+    "ast_hash": "e5ce3c09f70a188aeec6105da4405410",
+    "semantic_hash": ""
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\__init__.py": {
+    "mtime": 1779903602.2757764,
+    "ast_hash": "fe5dda68126e340225cdc4ec0dccb159",
+    "semantic_hash": "fe5dda68126e340225cdc4ec0dccb159"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\alert_rule.py": {
+    "mtime": 1779903602.2757764,
+    "ast_hash": "3057d6c162988836618b75ad6e41a10e",
+    "semantic_hash": "3057d6c162988836618b75ad6e41a10e"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\blacklist_result.py": {
+    "mtime": 1779903602.2772894,
+    "ast_hash": "1b4aa20334a091ab3d914747d8cdfc93",
+    "semantic_hash": "1b4aa20334a091ab3d914747d8cdfc93"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\dns_record.py": {
+    "mtime": 1779903602.2772894,
+    "ast_hash": "2adf32eb70c2d9d6a8fb50e55aee752b",
+    "semantic_hash": "2adf32eb70c2d9d6a8fb50e55aee752b"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\domain.py": {
+    "mtime": 1779903602.2772894,
+    "ast_hash": "36645d39ee9124e2b87fb0f390eb517c",
+    "semantic_hash": "36645d39ee9124e2b87fb0f390eb517c"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\metric_snapshot.py": {
+    "mtime": 1779903602.2782948,
+    "ast_hash": "b96d6c8dca5c86a0c2d0fe75949c834f",
+    "semantic_hash": "b96d6c8dca5c86a0c2d0fe75949c834f"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\seed_test.py": {
+    "mtime": 1779903602.2782948,
+    "ast_hash": "b2533a098e97dee7c684402d153e9de3",
+    "semantic_hash": "b2533a098e97dee7c684402d153e9de3"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\seed_test_result.py": {
+    "mtime": 1779903602.2782948,
+    "ast_hash": "9b5af0d86df15ab5b34095379f25ace8",
+    "semantic_hash": "9b5af0d86df15ab5b34095379f25ace8"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\models\\user.py": {
+    "mtime": 1779903602.2782948,
+    "ast_hash": "e32a43faeb3534c3021ef208deaa50b1",
+    "semantic_hash": "e32a43faeb3534c3021ef208deaa50b1"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\schemas\\__init__.py": {
+    "mtime": 1779903602.2782948,
+    "ast_hash": "81051bcc2cf1bedf378224b0a93e2877",
+    "semantic_hash": "81051bcc2cf1bedf378224b0a93e2877"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\schemas\\auth.py": {
+    "mtime": 1779903602.2796383,
+    "ast_hash": "aaac091e07d602183eda6618e69b3ee2",
+    "semantic_hash": "aaac091e07d602183eda6618e69b3ee2"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\schemas\\dns.py": {
+    "mtime": 1779903602.2796383,
+    "ast_hash": "6d5136d8162a526713f308ed29d65a8c",
+    "semantic_hash": "6d5136d8162a526713f308ed29d65a8c"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\schemas\\domain.py": {
+    "mtime": 1779903602.2796383,
+    "ast_hash": "c623ea5a315c3118a7ec09719ade0a00",
+    "semantic_hash": "c623ea5a315c3118a7ec09719ade0a00"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\__init__.py": {
+    "mtime": 1779903602.2806451,
+    "ast_hash": "81051bcc2cf1bedf378224b0a93e2877",
+    "semantic_hash": "81051bcc2cf1bedf378224b0a93e2877"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\alerting.py": {
+    "mtime": 1779903602.2806451,
+    "ast_hash": "26f9ef50eb004d1c56930f947feb282a",
+    "semantic_hash": "26f9ef50eb004d1c56930f947feb282a"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\blacklist_checker.py": {
+    "mtime": 1779903602.2806451,
+    "ast_hash": "3db03042e0335bbfb61df2b3ca6ddb29",
+    "semantic_hash": "3db03042e0335bbfb61df2b3ca6ddb29"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\dns_checker.py": {
+    "mtime": 1779903602.2806451,
+    "ast_hash": "aba7cd5e04083c68dc6c66e54d81d845",
+    "semantic_hash": "aba7cd5e04083c68dc6c66e54d81d845"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\email_client.py": {
+    "mtime": 1779903602.2816455,
+    "ast_hash": "20bb67cfe355d6fe598ead4ec98fb900",
+    "semantic_hash": "20bb67cfe355d6fe598ead4ec98fb900"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\encryption.py": {
+    "mtime": 1779903602.2816455,
+    "ast_hash": "db4e32476b3531fef6641d015b4000e6",
+    "semantic_hash": "db4e32476b3531fef6641d015b4000e6"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\gmail_oauth.py": {
+    "mtime": 1779903602.2816455,
+    "ast_hash": "aebf77792dd468243afed6de677f86d1",
+    "semantic_hash": "aebf77792dd468243afed6de677f86d1"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\seed_monitor.py": {
+    "mtime": 1779903602.2816455,
+    "ast_hash": "11c29532c6b10cf2cc67424d51e185c8",
+    "semantic_hash": "11c29532c6b10cf2cc67424d51e185c8"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\services\\smtp_sender.py": {
+    "mtime": 1779903602.282646,
+    "ast_hash": "13db3bb988fd71dfb8fb8c9c36f01f35",
+    "semantic_hash": "13db3bb988fd71dfb8fb8c9c36f01f35"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\utils\\logging.py": {
+    "mtime": 1779903602.282646,
+    "ast_hash": "150ce67778584178ac2f91c48e8298a6",
+    "semantic_hash": "150ce67778584178ac2f91c48e8298a6"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\workers\\queue.py": {
+    "mtime": 1779903602.282646,
+    "ast_hash": "48e2301cbe7c9065585d6df01879bb9b",
+    "semantic_hash": "48e2301cbe7c9065585d6df01879bb9b"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\workers\\scheduler.py": {
+    "mtime": 1779903602.283646,
+    "ast_hash": "5716b63e00a04fbecb1eb58b82f84bf7",
+    "semantic_hash": "5716b63e00a04fbecb1eb58b82f84bf7"
+  },
+  "D:\\CODE\\Ember\\backend\\app\\workers\\tasks.py": {
+    "mtime": 1779903602.284152,
+    "ast_hash": "fd33fd02d9c8e09b1d1009228bfd9ba7",
+    "semantic_hash": "fd33fd02d9c8e09b1d1009228bfd9ba7"
+  },
+  "D:\\CODE\\Ember\\backend\\migrations\\env.py": {
+    "mtime": 1779903602.284152,
+    "ast_hash": "48b620844399b40af2174ecd7cfd6be7",
+    "semantic_hash": "48b620844399b40af2174ecd7cfd6be7"
+  },
+  "D:\\CODE\\Ember\\backend\\migrations\\versions\\36055e5df55a_add_mfa_and_oauth_fields_to_user.py": {
+    "mtime": 1779903602.285442,
+    "ast_hash": "79dfec48f59dc77df539d02d7dbd6bdf",
+    "semantic_hash": "79dfec48f59dc77df539d02d7dbd6bdf"
+  },
+  "D:\\CODE\\Ember\\backend\\migrations\\versions\\899f4502eada_add_smtp_to_domains.py": {
+    "mtime": 1779903602.285442,
+    "ast_hash": "36c2d18479be8ae81becde4ee47cb23c",
+    "semantic_hash": "36c2d18479be8ae81becde4ee47cb23c"
+  },
+  "D:\\CODE\\Ember\\backend\\migrations\\versions\\89cbc6dc2125_initial_schema.py": {
+    "mtime": 1779903602.285442,
+    "ast_hash": "04bd56a8a7597f3d5790e40dd2c4871e",
+    "semantic_hash": "04bd56a8a7597f3d5790e40dd2c4871e"
+  },
+  "D:\\CODE\\Ember\\backend\\migrations\\versions\\9f3d8ff1cb8d_update_alert_rules_columns.py": {
+    "mtime": 1779903602.285442,
+    "ast_hash": "2301dc0bcc94f0d01cdf1b109aff3f7a",
+    "semantic_hash": "2301dc0bcc94f0d01cdf1b109aff3f7a"
+  },
+  "D:\\CODE\\Ember\\backend\\migrations\\versions\\b004474cbde2_update_blacklist_results_columns.py": {
+    "mtime": 1779903602.285442,
+    "ast_hash": "c5bec9b73dc6a5c4d0962d091542ae1c",
+    "semantic_hash": "c5bec9b73dc6a5c4d0962d091542ae1c"
+  },
+  "D:\\CODE\\Ember\\backend\\test_db.py": {
+    "mtime": 1779903602.2869465,
+    "ast_hash": "5a6bea1d694916cf18501af738d46404",
+    "semantic_hash": "5a6bea1d694916cf18501af738d46404"
+  },
+  "D:\\CODE\\Ember\\backend\\test_imap.py": {
+    "mtime": 1779903602.2869465,
+    "ast_hash": "ac7409bb953540cce993e4a613989184",
+    "semantic_hash": "ac7409bb953540cce993e4a613989184"
+  },
+  "D:\\CODE\\Ember\\backend\\tests\\conftest.py": {
+    "mtime": 1779903602.2869465,
+    "ast_hash": "6377f95abd553182c2452450051e2552",
+    "semantic_hash": "6377f95abd553182c2452450051e2552"
+  },
+  "D:\\CODE\\Ember\\backend\\tests\\test_api.py": {
+    "mtime": 1779903602.2882228,
+    "ast_hash": "6edd1455c4bec7550ffba4e6bdd907b2",
+    "semantic_hash": "6edd1455c4bec7550ffba4e6bdd907b2"
+  },
+  "D:\\CODE\\Ember\\backend\\tests\\test_auth.py": {
+    "mtime": 1779903602.2882228,
+    "ast_hash": "fef8bd1c4594f23f00b08f321ca14531",
+    "semantic_hash": "fef8bd1c4594f23f00b08f321ca14531"
+  },
+  "D:\\CODE\\Ember\\backend\\tests\\test_dns_checker.py": {
+    "mtime": 1779903602.2882228,
+    "ast_hash": "58ed1420018dee3ba4b6fdd4d46cf434",
+    "semantic_hash": "58ed1420018dee3ba4b6fdd4d46cf434"
+  },
+  "D:\\CODE\\Ember\\frontend\\package.json": {
+    "mtime": 1779903602.290697,
+    "ast_hash": "f266ff5a765919da7e17a5ad56e4b2ca",
+    "semantic_hash": "f266ff5a765919da7e17a5ad56e4b2ca"
+  },
+  "D:\\CODE\\Ember\\frontend\\postcss.config.js": {
+    "mtime": 1779903602.290697,
+    "ast_hash": "a1f8b6cab43ce42c05c1c5a8ed92d51e",
+    "semantic_hash": "a1f8b6cab43ce42c05c1c5a8ed92d51e"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\App.tsx": {
+    "mtime": 1779903602.290697,
+    "ast_hash": "caa7500844801b7d9b61b64aa9d013ec",
+    "semantic_hash": "caa7500844801b7d9b61b64aa9d013ec"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\charts\\PlacementBarChart.tsx": {
+    "mtime": 1779903602.2919226,
+    "ast_hash": "7119271be52c8ae5fb8e87e43400f5ac",
+    "semantic_hash": "7119271be52c8ae5fb8e87e43400f5ac"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\charts\\ScoreHistoryChart.tsx": {
+    "mtime": 1779903602.2919226,
+    "ast_hash": "fbd2fd10ff1fff8ca54eab37addba7ed",
+    "semantic_hash": "fbd2fd10ff1fff8ca54eab37addba7ed"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\common\\Badge.tsx": {
+    "mtime": 1779903602.293125,
+    "ast_hash": "97718517a2bf4c3aa0ae49548ed3e133",
+    "semantic_hash": "97718517a2bf4c3aa0ae49548ed3e133"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\common\\Button.tsx": {
+    "mtime": 1779903602.293125,
+    "ast_hash": "1b385a13380fa1984c3c776ca69be2d9",
+    "semantic_hash": "1b385a13380fa1984c3c776ca69be2d9"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\common\\Card.tsx": {
+    "mtime": 1779903602.293125,
+    "ast_hash": "77b901c17760f7ab64e7d702abaac638",
+    "semantic_hash": "77b901c17760f7ab64e7d702abaac638"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\common\\EmptyState.tsx": {
+    "mtime": 1779903602.293125,
+    "ast_hash": "af65c08a3efac2913657b36f954fc503",
+    "semantic_hash": "af65c08a3efac2913657b36f954fc503"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\common\\ScoreRing.tsx": {
+    "mtime": 1779903602.294129,
+    "ast_hash": "a7cbb1be3ab41ed346fa4e5d4323dece",
+    "semantic_hash": "a7cbb1be3ab41ed346fa4e5d4323dece"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\dns\\DnsCheckRow.tsx": {
+    "mtime": 1779903602.294129,
+    "ast_hash": "108df41a31c021421d6638686f00cf36",
+    "semantic_hash": "108df41a31c021421d6638686f00cf36"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\domains\\AddDomainModal.tsx": {
+    "mtime": 1779903602.294129,
+    "ast_hash": "298097980abf46bc2dc9b83f19897353",
+    "semantic_hash": "298097980abf46bc2dc9b83f19897353"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\layout\\Navbar.tsx": {
+    "mtime": 1779903602.2951288,
+    "ast_hash": "58410c1c055bee2e61c42b7128328b94",
+    "semantic_hash": "58410c1c055bee2e61c42b7128328b94"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\layout\\PageContainer.tsx": {
+    "mtime": 1779903602.2951288,
+    "ast_hash": "a8fa1f1d6a1c5772c8cda018e8326e5a",
+    "semantic_hash": "a8fa1f1d6a1c5772c8cda018e8326e5a"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\components\\seed\\SeedResultGrid.tsx": {
+    "mtime": 1779903602.296125,
+    "ast_hash": "982139e1c3903aaa1aa96d423ba4b219",
+    "semantic_hash": "982139e1c3903aaa1aa96d423ba4b219"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\context\\AuthContext.tsx": {
+    "mtime": 1779903602.296125,
+    "ast_hash": "bf10daa966297cde2a34417d28897e44",
+    "semantic_hash": "bf10daa966297cde2a34417d28897e44"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\main.tsx": {
+    "mtime": 1779903602.2971253,
+    "ast_hash": "893472341bbb1ef350a3d2dc27d6b355",
+    "semantic_hash": "893472341bbb1ef350a3d2dc27d6b355"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\alerts\\AlertsPage.tsx": {
+    "mtime": 1779903602.2976296,
+    "ast_hash": "bad6cc4a78bd23c541423447a4618c94",
+    "semantic_hash": "bad6cc4a78bd23c541423447a4618c94"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\auth\\LoginPage.tsx": {
+    "mtime": 1779903602.2976296,
+    "ast_hash": "126a1d6033922e266f64fcd7b53176c0",
+    "semantic_hash": "126a1d6033922e266f64fcd7b53176c0"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\auth\\OAuthCallback.tsx": {
+    "mtime": 1779903602.2976296,
+    "ast_hash": "c9d69746dcc0fbd9696bfa0857eedefb",
+    "semantic_hash": "c9d69746dcc0fbd9696bfa0857eedefb"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\auth\\RegisterPage.tsx": {
+    "mtime": 1779903602.2976296,
+    "ast_hash": "a11fa12806e735190e36578287592e7d",
+    "semantic_hash": "a11fa12806e735190e36578287592e7d"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\dashboard\\DashboardPage.tsx": {
+    "mtime": 1779903602.2989497,
+    "ast_hash": "22ca7f090aa34fa8c473d57f026a4f4d",
+    "semantic_hash": "22ca7f090aa34fa8c473d57f026a4f4d"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\domains\\DomainDetailPage.tsx": {
+    "mtime": 1779903602.2989497,
+    "ast_hash": "32cbc33f37b945175a7331cfdaad4319",
+    "semantic_hash": "32cbc33f37b945175a7331cfdaad4319"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\domains\\DomainsListPage.tsx": {
+    "mtime": 1779903602.2989497,
+    "ast_hash": "c616e711c5d1c23110df521930724f2d",
+    "semantic_hash": "c616e711c5d1c23110df521930724f2d"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\seed-tests\\SeedTestPage.tsx": {
+    "mtime": 1779903602.2999494,
+    "ast_hash": "304a8693cd883bbb973fd10fd191ae01",
+    "semantic_hash": "304a8693cd883bbb973fd10fd191ae01"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\pages\\settings\\ProfilePage.tsx": {
+    "mtime": 1779903602.2999494,
+    "ast_hash": "131a0b94975803ce431b18256364704f",
+    "semantic_hash": "131a0b94975803ce431b18256364704f"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\router\\ProtectedRoute.tsx": {
+    "mtime": 1779903602.3009534,
+    "ast_hash": "1ea749f12b640416de597e67105fa194",
+    "semantic_hash": "1ea749f12b640416de597e67105fa194"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\services\\apiClient.ts": {
+    "mtime": 1779903602.3009534,
+    "ast_hash": "c785d4e10e68b7428c34d8b58e937af5",
+    "semantic_hash": "c785d4e10e68b7428c34d8b58e937af5"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\utils\\cn.ts": {
+    "mtime": 1779903602.3019505,
+    "ast_hash": "b36b4471fa392f7fd52db5d67e6d22e8",
+    "semantic_hash": "b36b4471fa392f7fd52db5d67e6d22e8"
+  },
+  "D:\\CODE\\Ember\\frontend\\src\\vite-env.d.ts": {
+    "mtime": 1779903602.3019505,
+    "ast_hash": "e76ca532523200d85c0192c3dcf18918",
+    "semantic_hash": "e76ca532523200d85c0192c3dcf18918"
+  },
+  "D:\\CODE\\Ember\\frontend\\tailwind.config.js": {
+    "mtime": 1779903602.3019505,
+    "ast_hash": "bbb951015466f76a2a03a539394b035c",
+    "semantic_hash": "bbb951015466f76a2a03a539394b035c"
+  },
+  "D:\\CODE\\Ember\\frontend\\tsconfig.json": {
+    "mtime": 1779903602.3019505,
+    "ast_hash": "8172642bdad05d2cc2438c3eaa7c1ebb",
+    "semantic_hash": "8172642bdad05d2cc2438c3eaa7c1ebb"
+  },
+  "D:\\CODE\\Ember\\frontend\\tsconfig.node.json": {
+    "mtime": 1779903602.3019505,
+    "ast_hash": "515e61cf81bc9a48e76fc4348f73ce2d",
+    "semantic_hash": "515e61cf81bc9a48e76fc4348f73ce2d"
+  },
+  "D:\\CODE\\Ember\\frontend\\vercel.json": {
+    "mtime": 1779903602.3030202,
+    "ast_hash": "0db7ccb3aff36e97aa469126e9e17f99",
+    "semantic_hash": "0db7ccb3aff36e97aa469126e9e17f99"
+  },
+  "D:\\CODE\\Ember\\frontend\\vite.config.d.ts": {
+    "mtime": 1779903602.3030202,
+    "ast_hash": "0e1a67b4f5e8a7d0b4ce59225bb47e16",
+    "semantic_hash": "0e1a67b4f5e8a7d0b4ce59225bb47e16"
+  },
+  "D:\\CODE\\Ember\\frontend\\vite.config.js": {
+    "mtime": 1779903602.3030202,
+    "ast_hash": "1c4028a9ae0ae76641e8934aeb184383",
+    "semantic_hash": "1c4028a9ae0ae76641e8934aeb184383"
+  },
+  "D:\\CODE\\Ember\\frontend\\vite.config.ts": {
+    "mtime": 1779903602.3030202,
+    "ast_hash": "1538edb70bd2429ab3dab640dace1deb",
+    "semantic_hash": "1538edb70bd2429ab3dab640dace1deb"
+  },
+  "D:\\CODE\\Ember\\.github\\workflows\\backend-ci.yml": {
+    "mtime": 1779903602.2661552,
+    "ast_hash": "5ad1fbbb6d97edc20d659100009720da",
+    "semantic_hash": "5ad1fbbb6d97edc20d659100009720da"
+  },
+  "D:\\CODE\\Ember\\README.md": {
+    "mtime": 1779903602.2671614,
+    "ast_hash": "f39372db9079c210df2457bf6c0ef579",
+    "semantic_hash": "f39372db9079c210df2457bf6c0ef579"
+  },
+  "D:\\CODE\\Ember\\backend\\.pre-commit-config.yaml": {
+    "mtime": 1779903602.268173,
+    "ast_hash": "9b26a93d9f3345fe0e5a370e1ebcb191",
+    "semantic_hash": "9b26a93d9f3345fe0e5a370e1ebcb191"
+  },
+  "D:\\CODE\\Ember\\backend\\requirements.txt": {
+    "mtime": 1779903602.2869465,
+    "ast_hash": "e82f4ca2e34cb28ee61a7a0a1dd472d7",
+    "semantic_hash": "e82f4ca2e34cb28ee61a7a0a1dd472d7"
+  },
+  "D:\\CODE\\Ember\\docker-compose.yml": {
+    "mtime": 1779903602.2882228,
+    "ast_hash": "d0d5d94744179bdb42a671d5f8a76c43",
+    "semantic_hash": "d0d5d94744179bdb42a671d5f8a76c43"
+  },
+  "D:\\CODE\\Ember\\frontend\\index.html": {
+    "mtime": 1779903602.2892225,
+    "ast_hash": "be88af2f621b315d99f0377777ffc117",
+    "semantic_hash": "be88af2f621b315d99f0377777ffc117"
+  },
+  "D:\\CODE\\Ember\\frontend\\public\\ember-logo.svg": {
+    "mtime": 1779903602.290697,
+    "ast_hash": "892295da67cb8c20a76b45ff06dd5b7b",
+    "semantic_hash": "892295da67cb8c20a76b45ff06dd5b7b"
+  }
+}

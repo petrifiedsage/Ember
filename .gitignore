@@ -91,6 +91,8 @@ ENV/
 *.swo
 *~
 .DS_Store
+.agents/
+
 
 # Testing
 .pytest_cache/
