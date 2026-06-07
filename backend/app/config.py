@@ -7,13 +7,13 @@ class Settings(BaseSettings):
     secret_key: str
     run_migrations_on_startup: bool = True
     environment: str = "development"
-    frontend_url: str
-    cors_origins: str
+    frontend_url: str = "http://localhost:5173"
+    cors_origins: str = "http://localhost:5173"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 1440
     refresh_token_expire_minutes: int = 10080
-    smtp_host: str
-    smtp_port: int
+    smtp_host: str = "mailpit"
+    smtp_port: int = 1025
     smtp_username: str = ""
     smtp_password: str = ""
     smtp_from_email: str = "alerts@ember.local"

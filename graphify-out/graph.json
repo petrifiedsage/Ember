@@ -272,7 +272,7 @@
       "source_file": "backend/app/api/router.py",
       "source_location": "L1",
       "id": "api_router",
-      "community": 6,
+      "community": 3,
       "norm_label": "router.py"
     },
     {
@@ -281,7 +281,7 @@
       "source_file": "backend/app/api/users.py",
       "source_location": "L1",
       "id": "api_users",
-      "community": 6,
+      "community": 3,
       "norm_label": "users.py"
     },
     {
@@ -290,7 +290,7 @@
       "source_file": "backend/app/api/users.py",
       "source_location": "L10",
       "id": "api_users_get_me",
-      "community": 6,
+      "community": 3,
       "norm_label": "get_me()"
     },
     {
@@ -299,7 +299,7 @@
       "source_file": "backend/app/api/users.py",
       "source_location": "L10",
       "id": "backend_app_api_users_py_user",
-      "community": 6,
+      "community": 3,
       "norm_label": "user"
     },
     {
@@ -308,7 +308,7 @@
       "source_file": "backend/app/api/users.py",
       "source_location": "L11",
       "id": "api_users_rationale_11",
-      "community": 6,
+      "community": 3,
       "norm_label": "return the currently authenticated user's profile"
     },
     {
@@ -326,7 +326,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L1",
       "id": "v1_alerts",
-      "community": 6,
+      "community": 10,
       "norm_label": "alerts.py"
     },
     {
@@ -335,7 +335,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L14",
       "id": "v1_alerts_alertrulecreate",
-      "community": 6,
+      "community": 10,
       "norm_label": "alertrulecreate"
     },
     {
@@ -353,7 +353,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L20",
       "id": "v1_alerts_get_domain_or_404",
-      "community": 6,
+      "community": 10,
       "norm_label": "get_domain_or_404()"
     },
     {
@@ -362,7 +362,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L20",
       "id": "backend_app_api_v1_alerts_py_session",
-      "community": 6,
+      "community": 10,
       "norm_label": "session"
     },
     {
@@ -371,7 +371,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L20",
       "id": "backend_app_api_v1_alerts_py_uuid",
-      "community": 6,
+      "community": 10,
       "norm_label": "uuid"
     },
     {
@@ -380,7 +380,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L20",
       "id": "backend_app_api_v1_alerts_py_user",
-      "community": 6,
+      "community": 10,
       "norm_label": "user"
     },
     {
@@ -389,7 +389,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L20",
       "id": "backend_app_api_v1_alerts_py_domain",
-      "community": 6,
+      "community": 10,
       "norm_label": "domain"
     },
     {
@@ -398,7 +398,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L28",
       "id": "v1_alerts_list_alerts",
-      "community": 6,
+      "community": 10,
       "norm_label": "list_alerts()"
     },
     {
@@ -407,7 +407,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L28",
       "id": "backend_app_api_v1_alerts_py_request",
-      "community": 6,
+      "community": 10,
       "norm_label": "request"
     },
     {
@@ -416,7 +416,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L35",
       "id": "v1_alerts_create_alert",
-      "community": 6,
+      "community": 10,
       "norm_label": "create_alert()"
     },
     {
@@ -425,7 +425,7 @@
       "source_file": "backend/app/api/v1/alerts.py",
       "source_location": "L51",
       "id": "v1_alerts_delete_alert",
-      "community": 6,
+      "community": 10,
       "norm_label": "delete_alert()"
     },
     {
@@ -641,7 +641,7 @@
       "source_file": "backend/app/api/v1/blacklists.py",
       "source_location": "L1",
       "id": "v1_blacklists",
-      "community": 6,
+      "community": 2,
       "norm_label": "blacklists.py"
     },
     {
@@ -650,7 +650,7 @@
       "source_file": "backend/app/api/v1/blacklists.py",
       "source_location": "L14",
       "id": "v1_blacklists_get_domain_or_404",
-      "community": 6,
+      "community": 2,
       "norm_label": "get_domain_or_404()"
     },
     {
@@ -659,7 +659,7 @@
       "source_file": "backend/app/api/v1/blacklists.py",
       "source_location": "L14",
       "id": "backend_app_api_v1_blacklists_py_session",
-      "community": 6,
+      "community": 2,
       "norm_label": "session"
     },
     {
@@ -668,7 +668,7 @@
       "source_file": "backend/app/api/v1/blacklists.py",
       "source_location": "L14",
       "id": "backend_app_api_v1_blacklists_py_uuid",
-      "community": 6,
+      "community": 2,
       "norm_label": "uuid"
     },
     {
@@ -677,7 +677,7 @@
       "source_file": "backend/app/api/v1/blacklists.py",
       "source_location": "L14",
       "id": "backend_app_api_v1_blacklists_py_user",
-      "community": 6,
+      "community": 2,
       "norm_label": "user"
     },
     {
@@ -695,7 +695,7 @@
       "source_file": "backend/app/api/v1/blacklists.py",
       "source_location": "L22",
       "id": "v1_blacklists_get_latest_blacklist",
-      "community": 6,
+      "community": 2,
       "norm_label": "get_latest_blacklist()"
     },
     {
@@ -704,16 +704,16 @@
       "source_file": "backend/app/api/v1/blacklists.py",
       "source_location": "L22",
       "id": "backend_app_api_v1_blacklists_py_request",
-      "community": 6,
+      "community": 2,
       "norm_label": "request"
     },
     {
       "label": "run_blacklist_check()",
       "file_type": "code",
       "source_file": "backend/app/api/v1/blacklists.py",
-      "source_location": "L35",
+      "source_location": "L43",
       "id": "v1_blacklists_run_blacklist_check",
-      "community": 6,
+      "community": 2,
       "norm_label": "run_blacklist_check()"
     },
     {
@@ -1028,7 +1028,7 @@
       "source_file": "backend/app/api/v1/router.py",
       "source_location": "L1",
       "id": "v1_router",
-      "community": 6,
+      "community": 3,
       "norm_label": "router.py"
     },
     {
@@ -1388,7 +1388,7 @@
       "source_file": "backend/app/deps.py",
       "source_location": "L1",
       "id": "app_deps",
-      "community": 6,
+      "community": 3,
       "norm_label": "deps.py"
     },
     {
@@ -1397,7 +1397,7 @@
       "source_file": "backend/app/deps.py",
       "source_location": "L12",
       "id": "app_deps_get_db",
-      "community": 6,
+      "community": 3,
       "norm_label": "get_db()"
     },
     {
@@ -1406,7 +1406,7 @@
       "source_file": "backend/app/deps.py",
       "source_location": "L21",
       "id": "app_deps_get_current_user",
-      "community": 6,
+      "community": 3,
       "norm_label": "get_current_user()"
     },
     {
@@ -1415,7 +1415,7 @@
       "source_file": "backend/app/deps.py",
       "source_location": "L21",
       "id": "backend_app_deps_py_session",
-      "community": 6,
+      "community": 3,
       "norm_label": "session"
     },
     {
@@ -1424,7 +1424,7 @@
       "source_file": "backend/app/deps.py",
       "source_location": "L21",
       "id": "backend_app_deps_py_str",
-      "community": 6,
+      "community": 3,
       "norm_label": "str"
     },
     {
@@ -1433,7 +1433,7 @@
       "source_file": "backend/app/deps.py",
       "source_location": "L21",
       "id": "backend_app_deps_py_user",
-      "community": 6,
+      "community": 3,
       "norm_label": "user"
     },
     {
@@ -1469,7 +1469,7 @@
       "source_file": "backend/app/main.py",
       "source_location": "L32",
       "id": "fastapi",
-      "community": 6,
+      "community": 3,
       "norm_label": "fastapi"
     },
     {
@@ -1595,7 +1595,7 @@
       "source_file": "backend/app/models/alert_rule.py",
       "source_location": "L7",
       "id": "models_alert_rule_alertrule",
-      "community": 6,
+      "community": 10,
       "norm_label": "alertrule"
     },
     {
@@ -1631,7 +1631,7 @@
       "source_file": "backend/app/models/dns_record.py",
       "source_location": "L8",
       "id": "models_dns_record_dnsrecord",
-      "community": 2,
+      "community": 5,
       "norm_label": "dnsrecord"
     },
     {
@@ -1721,7 +1721,7 @@
       "source_file": "backend/app/models/user.py",
       "source_location": "L7",
       "id": "models_user_user",
-      "community": 6,
+      "community": 2,
       "norm_label": "user"
     },
     {
@@ -1730,7 +1730,7 @@
       "source_file": "backend/app/models/user.py",
       "source_location": "L26",
       "id": "models_user_user_is_oauth",
-      "community": 6,
+      "community": 2,
       "norm_label": ".is_oauth()"
     },
     {
@@ -1739,7 +1739,7 @@
       "source_file": "backend/app/models/user.py",
       "source_location": "L26",
       "id": "backend_app_models_user_py_bool",
-      "community": 6,
+      "community": 2,
       "norm_label": "bool"
     },
     {
@@ -2531,7 +2531,7 @@
       "source_file": "backend/app/workers/tasks.py",
       "source_location": "L1",
       "id": "workers_tasks",
-      "community": 2,
+      "community": 5,
       "norm_label": "tasks.py"
     },
     {
@@ -2540,7 +2540,7 @@
       "source_file": "backend/app/workers/tasks.py",
       "source_location": "L17",
       "id": "workers_tasks_update_domain_score",
-      "community": 2,
+      "community": 5,
       "norm_label": "update_domain_score()"
     },
     {
@@ -2549,7 +2549,7 @@
       "source_file": "backend/app/workers/tasks.py",
       "source_location": "L52",
       "id": "workers_tasks_run_dns_check_task",
-      "community": 2,
+      "community": 5,
       "norm_label": "run_dns_check_task()"
     },
     {
@@ -2558,7 +2558,7 @@
       "source_file": "backend/app/workers/tasks.py",
       "source_location": "L52",
       "id": "backend_app_workers_tasks_py_str",
-      "community": 2,
+      "community": 5,
       "norm_label": "str"
     },
     {
@@ -2567,7 +2567,7 @@
       "source_file": "backend/app/workers/tasks.py",
       "source_location": "L72",
       "id": "workers_tasks_run_blacklist_check_task",
-      "community": 2,
+      "community": 5,
       "norm_label": "run_blacklist_check_task()"
     },
     {
@@ -2576,7 +2576,7 @@
       "source_file": "backend/app/workers/tasks.py",
       "source_location": "L89",
       "id": "workers_tasks_run_seed_poll_task",
-      "community": 2,
+      "community": 5,
       "norm_label": "run_seed_poll_task()"
     },
     {
@@ -2767,6 +2767,32 @@
       "id": "versions_b004474cbde2_update_blacklist_results_columns_downgrade",
       "community": 20,
       "norm_label": "downgrade()"
+    },
+    {
+      "label": "start.sh",
+      "file_type": "code",
+      "source_file": "backend/start.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "id": "backend_start",
+      "community": 6,
+      "norm_label": "start.sh"
+    },
+    {
+      "label": "start.sh script",
+      "file_type": "code",
+      "source_file": "backend/start.sh",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "id": "d_code_ember_backend_start_sh__entry",
+      "community": 6,
+      "norm_label": "start.sh script"
     },
     {
       "label": "test_db.py",
@@ -12878,9 +12904,9 @@
       "source_file": "backend/migrations/env.py",
       "source_location": "L51",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "migrations_env_rationale_51",
-      "target": "migrations_env_run_migrations_offline",
-      "confidence_score": 1.0
+      "target": "migrations_env_run_migrations_offline"
     },
     {
       "relation": "rationale_for",
@@ -12898,9 +12924,9 @@
       "source_file": "backend/migrations/env.py",
       "source_location": "L75",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "migrations_env_rationale_75",
-      "target": "migrations_env_run_migrations_online",
-      "confidence_score": 1.0
+      "target": "migrations_env_run_migrations_online"
     },
     {
       "relation": "contains",
@@ -13001,6 +13027,16 @@
       "confidence_score": 1.0,
       "source": "versions_b004474cbde2_update_blacklist_results_columns",
       "target": "versions_b004474cbde2_update_blacklist_results_columns_upgrade"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/start.sh",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "backend_start",
+      "target": "d_code_ember_backend_start_sh__entry",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -15811,5 +15847,5 @@
       "source_file": "backend/app/services/__init__.py"
     }
   ],
-  "built_at_commit": "3fb0ccaa72564f1417671d36d7e9711c20de2737"
+  "built_at_commit": "48bcafe1f231cc6e35ddc47cc261c50b456bee25"
 }

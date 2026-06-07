@@ -27,7 +27,15 @@ def get_latest_blacklist(request: Request, domain_id: UUID, db: Session = Depend
     return {
         "checked_at": record.checked_at,
         "is_listed": record.is_listed,
-        "results": record.results
+        "results": record.results,
+        "hits": [
+            {
+                "list": r["rbl"],
+                "listed": r["status"] == "listed",
+                "detail": None
+            }
+            for r in record.results
+        ] if record.results else []
     }
 
 @router.post("/{domain_id}/run", status_code=status.HTTP_202_ACCEPTED)

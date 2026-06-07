@@ -5,6 +5,7 @@ import { ProtectedRoute } from './router/ProtectedRoute';
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
 import { OAuthCallback } from './pages/auth/OAuthCallback';
+import { LandingPage } from './pages/landing/LandingPage';
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { DomainsListPage } from './pages/domains/DomainsListPage';
 import { DomainDetailPage } from './pages/domains/DomainDetailPage';
@@ -28,12 +29,13 @@ const App: React.FC = () => {
       />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/oauth/callback" element={<OAuthCallback />} />
           
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/domains" element={<DomainsListPage />} />
             <Route path="/domains/:id" element={<DomainDetailPage />} />
             <Route path="/domains/:id/seed-test" element={<SeedTestPage />} />

@@ -1,16 +1,16 @@
 # Graph Report - Ember  (2026-06-01)
 
 ## Corpus Check
-- 99 files · ~18,418 words
+- 100 files · ~18,488 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 472 nodes · 1096 edges · 39 communities (37 shown, 2 thin omitted)
+- 474 nodes · 1097 edges · 39 communities (36 shown, 3 thin omitted)
 - Extraction: 67% EXTRACTED · 33% INFERRED · 0% AMBIGUOUS · INFERRED: 357 edges (avg confidence: 0.6)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `3fb0ccaa`
+- Built from commit: `48bcafe1`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -49,14 +49,14 @@
 ## Surprising Connections (you probably didn't know these)
 - `Ember Deliverability Audit & Monitoring` --references--> `Ember Product Logo`  [EXTRACTED]
   README.md → frontend/public/ember-logo.svg
-- `bool` --uses--> `Base`  [INFERRED]
-  backend/app/models/user.py → backend/app/db/base.py
-- `Request` --uses--> `User`  [INFERRED]
-  backend/app/api/inboxes.py → backend/app/models/user.py
-- `Session` --uses--> `User`  [INFERRED]
-  backend/app/api/inboxes.py → backend/app/models/user.py
 - `User` --uses--> `User`  [INFERRED]
-  backend/app/api/inboxes.py → backend/app/models/user.py
+  backend/app/api/users.py → backend/app/models/user.py
+- `Session` --uses--> `User`  [INFERRED]
+  backend/app/deps.py → backend/app/models/user.py
+- `str` --uses--> `User`  [INFERRED]
+  backend/app/deps.py → backend/app/models/user.py
+- `User` --uses--> `User`  [INFERRED]
+  backend/app/deps.py → backend/app/models/user.py
 
 ## Import Cycles
 - 1-file cycle: `backend/app/main.py -> backend/app/main.py`
@@ -71,7 +71,7 @@
 - **Deliverability Scoring Flow** — rationale_scoring_engine, core_scoring, models_metric_snapshot [INFERRED 0.85]
 - **Domain Deliverability Audit Systems** — services_dns_checker, services_blacklist_checker, services_seed_monitor [INFERRED 0.95]
 
-## Communities (39 total, 2 thin omitted)
+## Communities (39 total, 3 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.08
@@ -83,23 +83,19 @@ Nodes (44): create_inbox(), delete_inbox(), get_inboxes(), gmail_oauth_callback(
 
 ### Community 2 - "Community 2"
 Cohesion: 0.14
-Nodes (44): Domain, Request, Session, User, UUID, Domain, int, Request (+36 more)
+Nodes (47): Domain, Request, Session, User, UUID, Request, Session, User (+39 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.11
-Nodes (17): add_request_id(), http_exception_handler(), lifespan(), ratelimit_exception_handler(), _run_startup_migrations(), unhandled_exception_handler(), validation_exception_handler(), Request (+9 more)
+Cohesion: 0.07
+Nodes (25): get_me(), Return the currently authenticated user's profile, get_current_user(), add_request_id(), http_exception_handler(), lifespan(), ratelimit_exception_handler(), _run_startup_migrations() (+17 more)
 
 ### Community 4 - "Community 4"
 Cohesion: 0.21
 Nodes (32): Any, Request, Session, str, User, bool, str, create_access_token() (+24 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.11
-Nodes (28): DnsCheckResult, Domain, Request, Session, User, UUID, str, DnsCheckResult (+20 more)
-
-### Community 6 - "Community 6"
-Cohesion: 0.13
-Nodes (28): get_me(), Return the currently authenticated user's profile, get_current_user(), User, Domain, Request, Session, User (+20 more)
+Cohesion: 0.10
+Nodes (34): DnsCheckResult, Domain, Request, Session, User, UUID, str, DnsCheckResult (+26 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.07
@@ -114,8 +110,8 @@ Cohesion: 0.18
 Nodes (10): 1. Clone, 2. Configure Environment, 3. Run with Docker, Ember — Email Deliverability Audit & Monitoring, Environment Variables (Backend), Features, Getting Started, Prerequisites (+2 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.14
-Nodes (16): int, bool, int, str, str, compute_score(), Ember Product Logo, Alerting & Notifications (+8 more)
+Cohesion: 0.12
+Nodes (27): Domain, Request, Session, User, UUID, int, bool, int (+19 more)
 
 ### Community 11 - "Community 11"
 Cohesion: 0.39
@@ -138,18 +134,18 @@ Cohesion: 0.29
 Nodes (6): Run migrations in 'offline' mode.      This configures the context with just a, Run migrations in 'offline' mode.      This configures the context with just a, Run migrations in 'online' mode.      In this scenario we need to create an En, Run migrations in 'online' mode.      In this scenario we need to create an En, run_migrations_offline(), run_migrations_online()
 
 ## Knowledge Gaps
-- **90 isolated node(s):** `int`, `bool`, `RequestValidationError`, `RateLimitExceeded`, `Exception` (+85 more)
+- **91 isolated node(s):** `int`, `bool`, `RequestValidationError`, `RateLimitExceeded`, `Exception` (+86 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **2 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `User` connect `Community 6` to `Community 1`, `Community 2`, `Community 4`, `Community 5`?**
-  _High betweenness centrality (0.122) - this node is a cross-community bridge._
-- **Why does `datetime` connect `Community 5` to `Community 2`, `Community 4`, `Community 37`, `Community 6`, `Community 10`?**
-  _High betweenness centrality (0.085) - this node is a cross-community bridge._
-- **Why does `FastAPI` connect `Community 6` to `Community 1`, `Community 2`, `Community 3`, `Community 4`, `Community 5`?**
+- **Why does `User` connect `Community 2` to `Community 1`, `Community 3`, `Community 4`, `Community 5`, `Community 10`?**
+  _High betweenness centrality (0.121) - this node is a cross-community bridge._
+- **Why does `datetime` connect `Community 5` to `Community 2`, `Community 10`, `Community 4`, `Community 37`?**
+  _High betweenness centrality (0.084) - this node is a cross-community bridge._
+- **Why does `FastAPI` connect `Community 3` to `Community 1`, `Community 2`, `Community 4`, `Community 5`, `Community 10`?**
   _High betweenness centrality (0.061) - this node is a cross-community bridge._
 - **Are the 58 inferred relationships involving `User` (e.g. with `int` and `Request`) actually correct?**
   _`User` has 58 INFERRED edges - model-reasoned connections that need verification._

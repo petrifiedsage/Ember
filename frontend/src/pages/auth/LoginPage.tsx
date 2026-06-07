@@ -18,10 +18,6 @@ export const LoginPage: React.FC = () => {
   const [tempToken, setTempToken] = useState('');
   const [mfaCode, setMfaCode] = useState('');
 
-  if (user) {
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
-
   React.useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     if (searchParams.get('error') === 'oauth_failed') {
@@ -30,6 +26,10 @@ export const LoginPage: React.FC = () => {
       window.history.replaceState({}, '', '/login');
     }
   }, [location]);
+
+  if (user) {
+    return <Navigate to="/dashboard" state={{ from: location }} replace />;
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

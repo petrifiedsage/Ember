@@ -15,6 +15,10 @@ from app.core.rate_limiter import limiter
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
 from fastapi.responses import RedirectResponse
+import logging
+
+logger = logging.getLogger(__name__)
+
 
 starlette_config = Config(environ={
     "GOOGLE_CLIENT_ID": settings.google_client_id or "",
@@ -193,12 +197,9 @@ async def oauth_callback(provider: str, request: Request, db: Session = Depends(
 
     client = oauth.create_client(provider)
     try:
-        # Force HTTPS redirect URI for token authorization behind proxy
-        redirect_uri = f"{request.base_url}api/v1/auth/{provider}/callback"
-        if "localhost" not in redirect_uri and redirect_uri.startswith("http://"):
-            redirect_uri = redirect_uri.replace("http://", "https://", 1)
-        token = await client.authorize_access_token(request, redirect_uri=redirect_uri)
+        token = await client.authorize_access_token(request)
     except Exception as e:
+        logger.exception("OAuth callback failed for provider %s: %s", provider, e)
         frontend_redirect = f"{settings.frontend_url.rstrip('/')}/login"
         return RedirectResponse(f"{frontend_redirect}?error=oauth_failed")
 

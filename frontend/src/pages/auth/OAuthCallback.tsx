@@ -49,7 +49,7 @@ export const OAuthCallback: React.FC = () => {
   };
 
   if (user) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/dashboard" replace />;
   }
 
   if (mfaRequired) {

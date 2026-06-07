@@ -16,7 +16,7 @@ export const RegisterPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   if (user) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/dashboard" state={{ from: location }} replace />;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
